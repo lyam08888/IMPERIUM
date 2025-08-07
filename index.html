@@ -34,6 +34,14 @@
     <script src="mobile-header-2025.js"></script>
     <script src="mobile-navigation-2025.js"></script>
     <script src="mobile-integration-2025.js"></script>
+    
+    <!-- Scripts de jeu complets -->
+    <script src="Navigation/game-functions.js"></script>
+    <script src="Navigation/tutorial-system.js"></script>
+    <script src="Navigation/progression-system.js"></script>
+    <script src="Navigation/building-system.js"></script>
+    <script src="Navigation/manual-save-system.js"></script>
+    <script src="link-buttons-to-functions.js"></script>
 
     <style>
         :root {
@@ -1117,6 +1125,8 @@
             <div class="game-actions">
                 <button id="save-btn" class="footer-btn">Sauvegarder</button>
                 <button id="load-btn" class="footer-btn">Charger</button>
+                <button id="tutorial-btn" class="footer-btn" onclick="tutorial.restartTutorial()">Tutoriel</button>
+                <button id="objectives-btn" class="footer-btn" onclick="progression.showCurrentObjectives()">Objectifs</button>
             </div>
         </footer>
     </div>
@@ -1243,8 +1253,19 @@
 
                     // Simuler un chargement
                     setTimeout(() => {
-                        // Rediriger vers la page Cité (point d'entrée du jeu)
-                        window.location.href = 'Navigation/Empire/Cite.html';
+                        // Cacher l'écran de démarrage et montrer l'interface de jeu
+                        startScreen.classList.add('hidden');
+                        imperiumUI.classList.add('visible');
+                        
+                        // Initialiser le jeu complet
+                        initGame();
+                        
+                        // Démarrer le tutoriel si pas encore terminé
+                        if (!gameState.player.tutorialCompleted) {
+                            setTimeout(() => {
+                                tutorial.startTutorial();
+                            }, 1000);
+                        }
                     }, 2500); // 2.5 secondes de chargement
                 });
             }
@@ -1255,16 +1276,34 @@
 
         // Initialisation du jeu
         function initGame() {
+            console.log('🎮 Initialisation complète du jeu IMPERIUM');
+            
+            // Initialiser les systèmes de base
             initNavigation();
+            
+            // Initialiser le système de progression
+            progression.init();
+            
+            // Charger ou initialiser l'état du jeu
             loadGame();
+            
+            // Démarrer les boucles de jeu
             startGameLoops();
+            
+            // Afficher la vue par défaut
             switchView('city');
-            logEvent(`🏛️ Bienvenue dans IMPERIUM, ${gameState.player.name} !`);
+            
+            // Initialiser l'interface utilisateur
             updatePlayerInfo();
             updateAllUI();
             
             // Initialiser les adaptations mobiles
             initializeMobileIntegration();
+            
+            // Message de bienvenue
+            logEvent(`🏛️ Bienvenue dans IMPERIUM, ${gameState.player.name} !`);
+            
+            console.log('✅ Jeu initialisé avec succès');
         }
         
         // Boucle de jeu principale
