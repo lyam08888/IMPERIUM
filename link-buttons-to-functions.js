@@ -53,22 +53,24 @@ if (typeof BUTTON_FUNCTION_MAPPING === 'undefined') {
     'description-alliance': 'gererDescriptionAlliance',
     'nom-alliance': 'gererNomAlliance'
 };
+}
 
-// Mapping des textes de boutons vers les fonctions
-const TEXT_FUNCTION_MAPPING = {
-    'Nouveau message': 'creerNouveauMessage',
-    'Actualiser': 'actualiserMessages',
-    'Supprimer': 'supprimerMessage',
-    'Tout marquer lu': 'marquerTousLus',
-    'Évolution des prix': 'afficherEvolutionPrix',
-    'Ordre du marché': 'gererOrdreMarche',
-    'Placer ordre d\'achat': 'placerOrdreAchat',
-    'Placer ordre de vente': 'placerOrdreVente',
-    'Explorer': 'explorerMonde',
-    'Gérer': 'gererMonde',
-    'Attaquer': 'attaquerProvince',
-    'Détails': 'afficherDetailsProvince',
-    'Recruter': 'recruterTroupes'
+// Mapping des textes de boutons vers les fonctions - DÉFINI GLOBALEMENT
+if (typeof TEXT_FUNCTION_MAPPING === 'undefined') {
+    window.TEXT_FUNCTION_MAPPING = {
+        'Nouveau message': 'creerNouveauMessage',
+        'Actualiser': 'actualiserMessages',
+        'Supprimer': 'supprimerMessage',
+        'Tout marquer lu': 'marquerTousLus',
+        'Évolution des prix': 'afficherEvolutionPrix',
+        'Ordre du marché': 'gererOrdreMarche',
+        'Placer ordre d\'achat': 'placerOrdreAchat',
+        'Placer ordre de vente': 'placerOrdreVente',
+        'Explorer': 'explorerMonde',
+        'Gérer': 'gererMonde',
+        'Attaquer': 'attaquerProvince',
+        'Détails': 'afficherDetailsProvince',
+        'Recruter': 'recruterTroupes'
     };
 }
 
@@ -99,7 +101,7 @@ class ButtonFunctionLinker {
             }
         });
         
-        Object.values(TEXT_FUNCTION_MAPPING).forEach(functionName => {
+        Object.values(window.TEXT_FUNCTION_MAPPING || {}).forEach(functionName => {
             if (typeof window[functionName] === 'function') {
                 this.availableFunctions.add(functionName);
             }
@@ -114,7 +116,7 @@ class ButtonFunctionLinker {
         });
         
         // Lier par texte
-        Object.keys(TEXT_FUNCTION_MAPPING).forEach(buttonText => {
+        Object.keys(window.TEXT_FUNCTION_MAPPING || {}).forEach(buttonText => {
             this.linkButtonByText(buttonText);
         });
         
@@ -141,7 +143,7 @@ class ButtonFunctionLinker {
         const buttons = Array.from(document.querySelectorAll('button, .btn, [role="button"]'));
         buttons.forEach(button => {
             if (button.textContent.trim().includes(buttonText)) {
-                const functionName = TEXT_FUNCTION_MAPPING[buttonText];
+                const functionName = window.TEXT_FUNCTION_MAPPING[buttonText];
                 if (this.availableFunctions.has(functionName)) {
                     const buttonId = button.id || `btn-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
                     button.id = buttonId;
@@ -274,15 +276,15 @@ class ButtonFunctionLinker {
     // Lier un nouveau bouton détecté
     linkNewButton(button) {
         const buttonId = button.id;
-        if (buttonId && BUTTON_FUNCTION_MAPPING[buttonId]) {
+        if (buttonId && window.BUTTON_FUNCTION_MAPPING[buttonId]) {
             this.linkButtonById(buttonId);
             return;
         }
         
         const buttonText = button.textContent.trim();
-        Object.keys(TEXT_FUNCTION_MAPPING).forEach(text => {
+        Object.keys(window.TEXT_FUNCTION_MAPPING || {}).forEach(text => {
             if (buttonText.includes(text)) {
-                const functionName = TEXT_FUNCTION_MAPPING[text];
+                const functionName = window.TEXT_FUNCTION_MAPPING[text];
                 if (this.availableFunctions.has(functionName)) {
                     const newButtonId = button.id || `new-btn-${Date.now()}`;
                     button.id = newButtonId;
@@ -305,8 +307,8 @@ class ButtonFunctionLinker {
         return {
             linkedButtons: this.linkedButtons.size,
             availableFunctions: this.availableFunctions.size,
-            mappedButtons: Object.keys(BUTTON_FUNCTION_MAPPING).length,
-            mappedTexts: Object.keys(TEXT_FUNCTION_MAPPING).length
+            mappedButtons: Object.keys(window.BUTTON_FUNCTION_MAPPING || {}).length,
+            mappedTexts: Object.keys(window.TEXT_FUNCTION_MAPPING || {}).length
         };
     }
 }

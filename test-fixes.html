@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPERIUM - Test des Corrections</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .test-section h2 {
+            color: #8B4513;
+            margin-top: 0;
+            border-bottom: 2px solid #8B4513;
+            padding-bottom: 10px;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .test-btn {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 69, 19, 0.3);
+        }
+        
+        .test-btn:active {
+            transform: translateY(0);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-ok { background: #28a745; }
+        .status-warning { background: #ffc107; }
+        .status-error { background: #dc3545; }
+        
+        .navigation-test {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .nav-btn {
+            background: #17a2b8;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background: #138496;
+        }
+        
+        .info-box {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .info-box h4 {
+            margin-top: 0;
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-section">
+            <h2>🏛️ IMPERIUM - Test des Corrections</h2>
+            <div class="info-box">
+                <h4>État du Système</h4>
+                <p>
+                    <span class="status-indicator status-ok"></span>
+                    <strong>Master Fix System:</strong> <span id="master-status">Chargement...</span>
+                </p>
+                <p>
+                    <span class="status-indicator status-ok"></span>
+                    <strong>Button Functions:</strong> <span id="button-status">Chargement...</span>
+                </p>
+                <p>
+                    <span class="status-indicator status-ok"></span>
+                    <strong>Navigation/Tutorial:</strong> <span id="nav-status">Chargement...</span>
+                </p>
+                <p>
+                    <span class="status-indicator status-ok"></span>
+                    <strong>Missing Functions:</strong> <span id="functions-status">Chargement...</span>
+                </p>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔧 Test des Fonctions de Boutons</h2>
+            <p>Testez les fonctions qui étaient manquantes et causaient des erreurs :</p>
+            
+            <div class="button-grid">
+                <button class="test-btn" onclick="creerNouveauMessage()">
+                    ✉️ Nouveau Message
+                </button>
+                <button class="test-btn" onclick="actualiserMessages()">
+                    🔄 Actualiser Messages
+                </button>
+                <button class="test-btn" onclick="afficherEvolutionPrix()">
+                    📈 Évolution Prix
+                </button>
+                <button class="test-btn" onclick="gererOrdreMarche()">
+                    ⚖️ Ordre Marché
+                </button>
+                <button class="test-btn" onclick="placerOrdreAchat()">
+                    💰 Ordre Achat
+                </button>
+                <button class="test-btn" onclick="placerOrdreVente()">
+                    💸 Ordre Vente
+                </button>
+                <button class="test-btn" onclick="explorerMonde()">
+                    🗺️ Explorer Monde
+                </button>
+                <button class="test-btn" onclick="gererMonde()">
+                    🌍 Gérer Monde
+                </button>
+                <button class="test-btn" onclick="creerNouvelleExpedition()">
+                    🚢 Nouvelle Expédition
+                </button>
+                <button class="test-btn" onclick="creerNouvelleFlotte()">
+                    ⛵ Nouvelle Flotte
+                </button>
+                <button class="test-btn" onclick="attaquerProvince()">
+                    ⚔️ Attaquer Province
+                </button>
+                <button class="test-btn" onclick="afficherDetailsProvince()">
+                    📊 Détails Province
+                </button>
+                <button class="test-btn" onclick="gererProvince()">
+                    🏛️ Gérer Province
+                </button>
+                <button class="test-btn" onclick="recruterTroupes()">
+                    ⚔️ Recruter Troupes
+                </button>
+                <button class="test-btn" onclick="ameliorerPort()">
+                    🏗️ Améliorer Port
+                </button>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🧭 Test de Navigation</h2>
+            <p>Testez la navigation corrigée entre les pages :</p>
+            
+            <div class="navigation-test">
+                <a href="index.html" class="nav-btn">🏛️ Accueil</a>
+                <a href="Empire/Cite.html" class="nav-btn">🏛️ Ma Cité</a>
+                <a href="Empire/Monde.html" class="nav-btn">🌍 Monde</a>
+                <a href="Empire/Province.html" class="nav-btn">🏝️ Province</a>
+                <a href="Militaire/Légions.html" class="nav-btn">⚔️ Légions</a>
+                <a href="Militaire/Flotte.html" class="nav-btn">🚢 Flotte</a>
+                <a href="Social/Messages.html" class="nav-btn">✉️ Messages</a>
+                <a href="Social/Diplomatie.html" class="nav-btn">🤝 Diplomatie</a>
+            </div>
+            
+            <div class="info-box">
+                <h4>Navigation Améliorée</h4>
+                <ul>
+                    <li>✅ Correction automatique des liens cassés</li>
+                    <li>✅ Bouton de retour universel</li>
+                    <li>✅ Menu rapide accessible (☰)</li>
+                    <li>✅ Raccourcis clavier (Échap, Ctrl+H, Ctrl+M)</li>
+                    <li>✅ Gestion d'erreur automatique</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🎓 Test du Système de Tutoriel</h2>
+            <p>Testez les corrections du système de tutoriel :</p>
+            
+            <div class="button-grid">
+                <button class="test-btn" onclick="startTutorial()">
+                    🎓 Démarrer Tutoriel
+                </button>
+                <button class="test-btn" onclick="skipTutorial()">
+                    ⏭️ Passer Tutoriel
+                </button>
+                <button class="test-btn" onclick="exitTutorial()">
+                    🚪 Quitter Tutoriel
+                </button>
+                <button class="test-btn" onclick="showHelp()">
+                    ❓ Aide
+                </button>
+            </div>
+            
+            <div class="info-box">
+                <h4>Corrections Tutoriel</h4>
+                <ul>
+                    <li>✅ Bouton de sortie ajouté</li>
+                    <li>✅ Navigation de retour corrigée</li>
+                    <li>✅ Contrôles de tutoriel améliorés</li>
+                    <li>✅ Gestion des erreurs de navigation</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>📱 Test Mobile</h2>
+            <p>Testez les corrections pour mobile :</p>
+            
+            <div class="button-grid">
+                <button class="test-btn" onclick="toggleMobileMenuFix()">
+                    📱 Menu Mobile
+                </button>
+                <button class="test-btn" onclick="testMobileNavigation()">
+                    🧭 Navigation Mobile
+                </button>
+                <button class="test-btn" onclick="testResponsive()">
+                    📐 Test Responsive
+                </button>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔧 Outils de Debug</h2>
+            <p>Outils pour diagnostiquer et corriger les problèmes :</p>
+            
+            <div class="button-grid">
+                <button class="test-btn" onclick="checkSystemStatus()">
+                    🔍 Vérifier Système
+                </button>
+                <button class="test-btn" onclick="reloadFixes()">
+                    🔄 Recharger Corrections
+                </button>
+                <button class="test-btn" onclick="showConsoleLog()">
+                    📋 Afficher Logs
+                </button>
+                <button class="test-btn" onclick="testAllFunctions()">
+                    🧪 Test Complet
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chargement des scripts de correction -->
+    <script src="imperium-fixes-master.js"></script>
+    <script src="missing-functions-fix.js"></script>
+    <script src="navigation-tutorial-fix.js"></script>
+    <script src="link-buttons-to-functions.js"></script>
+    
+    <script>
+        // Fonctions de test spécifiques
+        function startTutorial() {
+            if (window.ImperiumTutorial && window.imperiumTutorial) {
+                window.imperiumTutorial.start();
+            } else {
+                showNotification('Système de tutoriel en cours de chargement...', 'info');
+            }
+        }
+        
+        function testMobileNavigation() {
+            showNotification('Test de navigation mobile effectué', 'success');
+        }
+        
+        function testResponsive() {
+            const width = window.innerWidth;
+            const isMobile = width <= 768;
+            showNotification(`Écran ${isMobile ? 'mobile' : 'desktop'} détecté (${width}px)`, 'info');
+        }
+        
+        function checkSystemStatus() {
+            const status = {
+                masterFix: typeof window.ImperiumFixesMaster !== 'undefined',
+                buttonLinker: typeof window.ButtonFunctionLinker !== 'undefined',
+                navFix: typeof window.NavigationTutorialFix !== 'undefined',
+                functions: typeof window.creerNouveauMessage === 'function'
+            };
+            
+            console.log('🔍 System Status:', status);
+            
+            const working = Object.values(status).filter(Boolean).length;
+            const total = Object.keys(status).length;
+            
+            showNotification(`Système: ${working}/${total} composants fonctionnels`, 
+                working === total ? 'success' : 'warning');
+        }
+        
+        function reloadFixes() {
+            location.reload();
+        }
+        
+        function showConsoleLog() {
+            console.log('📋 IMPERIUM System Logs:');
+            console.log('- Master Fix System:', window.imperiumFixesMaster);
+            console.log('- Button Function Linker:', window.buttonLinker);
+            console.log('- Navigation Tutorial Fix:', window.navigationTutorialFix);
+            
+            showNotification('Logs affichés dans la console (F12)', 'info');
+        }
+        
+        function testAllFunctions() {
+            const functions = [
+                'creerNouveauMessage',
+                'actualiserMessages',
+                'afficherEvolutionPrix',
+                'gererOrdreMarche',
+                'explorerMonde',
+                'gererMonde',
+                'attaquerProvince',
+                'recruterTroupes'
+            ];
+            
+            let working = 0;
+            functions.forEach(func => {
+                if (typeof window[func] === 'function') {
+                    working++;
+                }
+            });
+            
+            showNotification(`Test complet: ${working}/${functions.length} fonctions disponibles`, 
+                working === functions.length ? 'success' : 'warning');
+        }
+        
+        // Mise à jour du statut en temps réel
+        function updateStatus() {
+            const masterStatus = document.getElementById('master-status');
+            const buttonStatus = document.getElementById('button-status');
+            const navStatus = document.getElementById('nav-status');
+            const functionsStatus = document.getElementById('functions-status');
+            
+            if (masterStatus) {
+                masterStatus.textContent = typeof window.ImperiumFixesMaster !== 'undefined' ? 'Actif' : 'Inactif';
+            }
+            
+            if (buttonStatus) {
+                buttonStatus.textContent = typeof window.ButtonFunctionLinker !== 'undefined' ? 'Actif' : 'Inactif';
+            }
+            
+            if (navStatus) {
+                navStatus.textContent = typeof window.NavigationTutorialFix !== 'undefined' ? 'Actif' : 'Inactif';
+            }
+            
+            if (functionsStatus) {
+                functionsStatus.textContent = typeof window.creerNouveauMessage === 'function' ? 'Actif' : 'Inactif';
+            }
+        }
+        
+        // Mettre à jour le statut périodiquement
+        setInterval(updateStatus, 1000);
+        
+        // Mise à jour initiale
+        setTimeout(updateStatus, 500);
+        
+        // Message de bienvenue
+        setTimeout(() => {
+            if (window.showNotification) {
+                showNotification('🏛️ IMPERIUM - Page de test des corrections chargée!', 'success');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
