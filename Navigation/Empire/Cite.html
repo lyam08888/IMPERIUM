@@ -20,6 +20,7 @@
     
     <!-- Scripts de navigation communs -->
     <script src="../common-navigation.js"></script>
+    <script src="../navigation-fix.js"></script>
     
     <!-- Scripts mobiles -->
     <script src="../../mobile-navigation.js"></script>
@@ -197,6 +198,65 @@
             overflow: hidden;
         }
 
+        /* Navigation latérale */
+        .imperium-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%);
+            border-radius: 1rem;
+            border: 2px solid var(--border-gold);
+            padding: 1.5rem;
+            overflow-y: auto;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-title {
+            color: var(--gold-primary);
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-gold);
+            padding-bottom: 0.5rem;
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-item a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .nav-item a:hover, .nav-item a.active {
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.2), rgba(245, 158, 11, 0.1));
+            border-color: var(--gold-primary);
+            transform: translateX(5px);
+            color: var(--gold-light);
+        }
+
+        .nav-icon {
+            font-size: 1.3rem;
+            width: 24px;
+            text-align: center;
+        }
+
         .main-content {
             flex-grow: 1;
             position: relative;
@@ -282,6 +342,12 @@
             min-height: 400px;
             position: relative;
             z-index: 1;
+        }
+
+        @media (max-width: 1024px) {
+            .imperium-sidebar {
+                display: none;
+            }
         }
 
         @media (max-width: 768px) {
@@ -689,6 +755,11 @@
         </header>
 
         <div class="imperium-body">
+            <!-- BARRE LATERALE (Desktop) -->
+            <aside class="imperium-sidebar">
+                <!-- Navigation générée dynamiquement par common-navigation.js -->
+            </aside>
+
             <main class="main-content">
                 <div class="view-container">
                     <h2 class="view-title">🏛️ Ma Cité : Roma Aeterna</h2>

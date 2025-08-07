@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="mobile-navigation-2025.css">
     
     <script src="Navigation/common-navigation.js"></script>
+    <script src="Navigation/navigation-fix.js"></script>
     <script src="mobile-navigation.js"></script>
     <script src="mobile-touch-handler.js"></script>
     <script src="chrome-mobile-fix.js"></script>
@@ -954,6 +955,30 @@
              }
         }
 
+        /* Bouton menu mobile */
+        .mobile-menu-btn {
+            display: none;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--border-gold);
+            color: var(--gold-light);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .mobile-menu-btn:hover {
+            background: var(--gold-primary);
+            color: white;
+        }
+
+        @media (max-width: 1024px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
         @media (max-width: 640px) {
             .imperium-header {
                 padding: 0.75rem 1rem;
@@ -1056,7 +1081,10 @@
         <!-- HEADER -->
         <header class="imperium-header">
             <div class="header-content">
-                <h1 class="imperium-logo">IMPERIUM</h1>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="mobile-menu-btn" onclick="toggleMobileNavigation()">☰</button>
+                    <h1 class="imperium-logo">IMPERIUM</h1>
+                </div>
                 <div id="resources-display" class="resources-display">
                     <!-- Les ressources seront injectées ici par JS -->
                 </div>

@@ -333,7 +333,73 @@ function initializeCommonElements() {
     if (logo) {
         logo.addEventListener('click', navigateToHome);
     }
+
+    // Assurer que la navigation est visible
+    ensureNavigationVisibility();
 }
+
+// Fonction pour s'assurer que la navigation est visible
+function ensureNavigationVisibility() {
+    const sidebar = document.querySelector('.imperium-sidebar');
+    if (sidebar && !sidebar.innerHTML.trim()) {
+        // Si la sidebar existe mais est vide, la remplir
+        sidebar.innerHTML = generateNavigationHTML();
+        updateActiveNavigation();
+    }
+}
+
+// Fonction pour basculer la navigation mobile
+function toggleMobileNavigation() {
+    const sidebar = document.querySelector('.imperium-sidebar');
+    if (sidebar) {
+        if (window.innerWidth <= 1024) {
+            // Mode mobile - créer un overlay
+            if (sidebar.style.display === 'block') {
+                sidebar.style.display = 'none';
+                removeMobileOverlay();
+            } else {
+                sidebar.style.display = 'block';
+                sidebar.style.position = 'fixed';
+                sidebar.style.top = '0';
+                sidebar.style.left = '0';
+                sidebar.style.height = '100vh';
+                sidebar.style.zIndex = '1000';
+                createMobileOverlay();
+            }
+        }
+    }
+}
+
+// Créer l'overlay mobile
+function createMobileOverlay() {
+    const overlay = document.createElement('div');
+    overlay.id = 'mobile-nav-overlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        backdrop-filter: blur(5px);
+    `;
+    overlay.onclick = () => {
+        toggleMobileNavigation();
+    };
+    document.body.appendChild(overlay);
+}
+
+// Supprimer l'overlay mobile
+function removeMobileOverlay() {
+    const overlay = document.getElementById('mobile-nav-overlay');
+    if (overlay) {
+        overlay.remove();
+    }
+}
+
+// Exposer la fonction globalement
+window.toggleMobileNavigation = toggleMobileNavigation;
 
 // Appeler la fonction d'initialisation lorsque le DOM est chargé
 document.addEventListener('DOMContentLoaded', initializeCommonElements);
