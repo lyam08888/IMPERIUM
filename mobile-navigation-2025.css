@@ -1,0 +1,612 @@
+/* ===== NAVIGATION MOBILE GAMING 2025 ===== */
+
+:root {
+    --tabs-height-2025: 80px;
+    --switcher-height: 60px;
+    --fab-size: 56px;
+    --animation-duration: 0.3s;
+    --animation-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --animation-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --glass-bg-strong: rgba(15, 23, 42, 0.95);
+    --glass-border-bright: rgba(255, 255, 255, 0.3);
+}
+
+/* ===== ONGLETS INFÉRIEURS ===== */
+.mobile-tabs-2025 {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--tabs-height-2025);
+    background: linear-gradient(135deg, 
+        var(--glass-bg-strong) 0%, 
+        rgba(30, 41, 59, 0.9) 100%);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-top: 1px solid var(--glass-border-bright);
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 
+        0 -10px 30px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+/* Effet de particules sur les onglets */
+.mobile-tabs-2025::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 191, 255, 0.1) 0%, transparent 50%);
+    animation: particleGlow 4s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes particleGlow {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.6; }
+}
+
+/* Indicateur d'onglet actif */
+.tab-active-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: var(--neon-gold);
+    border-radius: 0 0 4px 4px;
+    transition: all 0.4s var(--animation-bounce);
+    box-shadow: 0 0 15px currentColor;
+    z-index: 2;
+}
+
+/* Onglets individuels */
+.mobile-tab-2025 {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: all var(--animation-duration) var(--animation-smooth);
+    user-select: none;
+}
+
+.mobile-tab-2025::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    transition: background var(--animation-duration) ease;
+    border-radius: 12px;
+    margin: 8px 4px;
+}
+
+.mobile-tab-2025:hover::before {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.mobile-tab-2025.active::before {
+    background: rgba(255, 215, 0, 0.1);
+}
+
+/* Effet de lueur pour l'onglet actif */
+.tab-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, var(--tab-color, #FFD700) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity var(--animation-duration) ease;
+    border-radius: 50%;
+    filter: blur(15px);
+    pointer-events: none;
+}
+
+.mobile-tab-2025.active .tab-glow {
+    opacity: 0.3;
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* Contenu de l'onglet */
+.tab-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    z-index: 1;
+    transition: all var(--animation-duration) var(--animation-smooth);
+}
+
+.mobile-tab-2025.active .tab-content {
+    transform: translateY(-2px);
+}
+
+/* Conteneur d'icône avec notification */
+.tab-icon-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab-icon {
+    font-size: 1.4rem;
+    transition: all var(--animation-duration) var(--animation-smooth);
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.3));
+}
+
+.mobile-tab-2025.active .tab-icon {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 0 10px var(--tab-color, #FFD700));
+    animation: iconBounce 0.6s var(--animation-bounce);
+}
+
+@keyframes iconBounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Label de l'onglet */
+.tab-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all var(--animation-duration) var(--animation-smooth);
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-tab-2025.active .tab-label {
+    color: var(--neon-gold);
+    text-shadow: 0 0 8px var(--neon-gold);
+}
+
+/* Badge de notification sur onglet */
+.tab-notification {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        0 0 0 2px rgba(255, 255, 255, 0.2);
+    animation: notificationPop 0.5s var(--animation-bounce);
+}
+
+@keyframes notificationPop {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Effet de ripple */
+.tab-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 215, 0, 0.3);
+    transform: scale(0);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.tab-ripple.ripple-active {
+    animation: rippleEffect 0.6s ease-out;
+}
+
+@keyframes rippleEffect {
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* ===== SÉLECTEUR DE VUES ===== */
+.view-switcher-2025 {
+    position: fixed;
+    top: 65px; /* Sous le header */
+    left: 0;
+    right: 0;
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border-bright);
+    transform: translateY(-100%);
+    transition: transform 0.4s var(--animation-bounce);
+    z-index: 999;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.view-switcher-2025.expanded {
+    transform: translateY(0);
+}
+
+.switcher-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 215, 0, 0.05) 50%, 
+        transparent 100%);
+    animation: switcherShimmer 3s ease-in-out infinite;
+}
+
+@keyframes switcherShimmer {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.switcher-content {
+    position: relative;
+    padding: 16px;
+    z-index: 1;
+}
+
+.switcher-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    color: var(--neon-gold);
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--neon-gold);
+}
+
+.switcher-icon {
+    font-size: 1.2rem;
+    filter: drop-shadow(0 0 5px currentColor);
+}
+
+.switcher-text {
+    font-size: 1rem;
+}
+
+/* Options de vues */
+.view-options {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 4px 0;
+}
+
+.view-options::-webkit-scrollbar {
+    display: none;
+}
+
+.view-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all var(--animation-duration) var(--animation-smooth);
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.view-option:hover {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: var(--neon-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+}
+
+.view-option.active {
+    background: linear-gradient(135deg, var(--neon-gold), #FFA500);
+    border-color: var(--neon-gold);
+    color: white;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
+.view-icon {
+    font-size: 1rem;
+    filter: drop-shadow(0 0 3px currentColor);
+}
+
+.view-name {
+    font-weight: 600;
+}
+
+/* ===== BOUTON D'ACTION FLOTTANT (FAB) ===== */
+.quick-action-fab {
+    position: fixed;
+    bottom: calc(var(--tabs-height-2025) + 16px);
+    right: 16px;
+    z-index: 1001;
+}
+
+.fab-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, var(--neon-gold) 0%, transparent 70%);
+    opacity: 0.3;
+    border-radius: 50%;
+    filter: blur(10px);
+    animation: fabGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes fabGlow {
+    0% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.fab-button {
+    width: var(--fab-size);
+    height: var(--fab-size);
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--neon-gold), #FFA500);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--animation-duration) var(--animation-bounce);
+    box-shadow: 
+        0 8px 25px rgba(255, 215, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 2;
+}
+
+.fab-button:hover {
+    transform: scale(1.1);
+    box-shadow: 
+        0 12px 35px rgba(255, 215, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.fab-button:active {
+    transform: scale(0.95);
+}
+
+.fab-icon {
+    font-size: 1.4rem;
+    color: white;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    transition: transform var(--animation-duration) ease;
+}
+
+.quick-action-fab.fab-expanded .fab-icon {
+    transform: rotate(45deg);
+}
+
+/* Menu du FAB */
+.fab-menu {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all var(--animation-duration) var(--animation-bounce);
+}
+
+.quick-action-fab.fab-expanded .fab-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.fab-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border-bright);
+    border-radius: 25px;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: all var(--animation-duration) var(--animation-smooth);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    white-space: nowrap;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.fab-menu-item:hover {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: var(--neon-gold);
+    transform: translateX(-4px);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.2);
+}
+
+.fab-menu-icon {
+    font-size: 1rem;
+    filter: drop-shadow(0 0 3px currentColor);
+}
+
+.fab-menu-label {
+    font-weight: 600;
+}
+
+/* ===== ANIMATIONS DE TRANSITION ===== */
+body.tab-transitioning {
+    overflow: hidden;
+}
+
+body.tab-transitioning::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        rgba(255, 215, 0, 0.1) 0%, 
+        transparent 50%, 
+        rgba(0, 191, 255, 0.1) 100%);
+    z-index: 9999;
+    animation: transitionOverlay 0.5s ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes transitionOverlay {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+body.page-transitioning {
+    animation: pageTransitionOut 0.3s ease-in forwards;
+}
+
+@keyframes pageTransitionOut {
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+        filter: blur(2px);
+    }
+}
+
+/* ===== ADAPTATIONS RESPONSIVE ===== */
+@media (max-width: 360px) {
+    :root {
+        --tabs-height-2025: 70px;
+        --fab-size: 48px;
+    }
+    
+    .tab-icon {
+        font-size: 1.2rem;
+    }
+    
+    .mobile-tab-2025.active .tab-icon {
+        font-size: 1.3rem;
+    }
+    
+    .tab-label {
+        font-size: 10px;
+    }
+    
+    .view-option {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .fab-menu-item {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .tab-label {
+        display: none;
+    }
+    
+    :root {
+        --tabs-height-2025: 60px;
+    }
+}
+
+/* ===== EFFETS SPÉCIAUX GAMING ===== */
+.mobile-tabs-2025::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--neon-gold) 20%, 
+        var(--neon-blue) 50%, 
+        var(--neon-purple) 80%, 
+        transparent 100%);
+    animation: energyFlow 3s linear infinite;
+}
+
+@keyframes energyFlow {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Effet de scan sur les onglets */
+.mobile-tab-2025::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.1) 50%, 
+        transparent 100%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+    pointer-events: none;
+}
+
+.mobile-tab-2025:hover::after {
+    transform: translateX(100%);
+}
+
+/* Particules flottantes sur le FAB */
+.fab-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200%;
+    height: 200%;
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+    border-radius: 50%;
+    animation: fabParticles 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes fabParticles {
+    0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) rotate(0deg); }
+    50% { opacity: 0.6; transform: translate(-50%, -50%) rotate(180deg); }
+}
