@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>IMPERIUM - Ma Cité</title>
+    <meta name="description" content="Gérez votre cité romaine dans IMPERIUM - Construisez, développez, prospérez.">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23b45309'/><text x='16' y='20' text-anchor='middle' fill='white' font-family='serif' font-size='20' font-weight='bold'>I</text></svg>" type="image/svg+xml">
+
+    <!-- PWA Support -->
+    <meta name="theme-color" content="#d97706">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Styles communs -->
+    <link rel="stylesheet" href="../../common-styles.css">
+    <link rel="stylesheet" href="../../mobile-styles.css">
+    
+    <!-- Systèmes mobiles 2025 -->
+    <link rel="stylesheet" href="../../mobile-header-2025.css">
+    <link rel="stylesheet" href="../../mobile-navigation-2025.css">
+    
+    <!-- Scripts communs -->
+    <script src="../../common-navigation.js"></script>
+    <script src="../../game-engine.js"></script>
+    <script src="../../save-system.js"></script>
+    <script src="../../chrome-mobile-fix.js"></script>
+    
+    <!-- Scripts mobiles 2025 -->
+    <script src="../../mobile-header-2025.js"></script>
+    <script src="../../mobile-navigation-2025.js"></script>
+
+    <style>
+        /* Variables CSS pour cette page */
+        :root {
+            --page-primary-color: #FFD700;
+            --page-secondary-color: #FFA500;
+        }
+
+        /* Layout principal mobile 2025 */
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, 
+                var(--dark-bg) 0%, 
+                var(--dark-stone) 50%, 
+                var(--dark-marble) 100%);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            min-height: calc(var(--vh, 1vh) * 100);
+        }
+
+        /* Conteneur principal de la page */
+        .page-container-2025 {
+            padding: 20px 16px;
+            max-width: 100%;
+            margin: 0 auto;
+            min-height: calc(100vh - 145px); /* Header + Tabs */
+            min-height: calc(calc(var(--vh, 1vh) * 100) - 145px);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* En-tête de page moderne */
+        .page-header-2025 {
+            text-align: center;
+            margin-bottom: 24px;
+            position: relative;
+            animation: pageHeaderSlideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .page-title-2025 {
+            font-size: clamp(1.8rem, 6vw, 2.5rem);
+            font-weight: bold;
+            margin: 0 0 8px 0;
+            background: linear-gradient(135deg, 
+                var(--page-primary-color), 
+                var(--page-secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px var(--page-primary-color);
+            font-family: 'Times New Roman', serif;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .page-title-2025::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, var(--page-primary-color) 0%, transparent 70%);
+            opacity: 0.1;
+            border-radius: 50%;
+            filter: blur(20px);
+            z-index: -1;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { opacity: 0.1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0.2; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .page-subtitle-2025 {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-style: italic;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        /* Contenu principal avec effet de verre */
+        .content-section-2025 {
+            background: linear-gradient(135deg, 
+                rgba(15, 23, 42, 0.8) 0%, 
+                rgba(30, 41, 59, 0.6) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: contentSlideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+        }
+
+        .content-section-2025::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(255, 215, 0, 0.05) 0%, 
+                transparent 50%, 
+                rgba(0, 191, 255, 0.05) 100%);
+            pointer-events: none;
+        }
+
+        /* Grille des bâtiments */
+        .buildings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .building-card-2025 {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .building-card-2025::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.05) 50%, 
+                transparent 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .building-card-2025:hover::before {
+            transform: translateX(100%);
+        }
+
+        .building-card-2025:hover {
+            transform: translateY(-4px);
+            border-color: var(--page-primary-color);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .building-card-2025:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .building-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .building-icon {
+            font-size: 2rem;
+            filter: drop-shadow(0 0 8px currentColor);
+        }
+
+        .building-info h3 {
+            margin: 0 0 4px 0;
+            color: var(--page-primary-color);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .building-level {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .building-description {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .building-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--page-primary-color);
+        }
+
+        .building-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-upgrade {
+            flex: 1;
+            background: linear-gradient(135deg, var(--page-primary-color), var(--page-secondary-color));
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-upgrade:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-upgrade:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Ressources de la cité */
+        .city-resources {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .resources-title {
+            color: var(--page-primary-color);
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+        }
+
+        .resource-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .resource-icon-large {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 5px currentColor);
+        }
+
+        .resource-name {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .resource-amount {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--page-primary-color);
+        }
+
+        /* Animations d'entrée */
+        @keyframes pageHeaderSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes contentSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Particules d'ambiance */
+        .particles-2025 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle-2025 {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--page-primary-color);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: particleFloat 8s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-10px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 360px) {
+            .page-container-2025 {
+                padding: 16px 12px;
+            }
+            
+            .buildings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .resources-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particules d'ambiance -->
+    <div class="particles-2025" id="particles2025"></div>
+
+    <!-- Le header et la navigation seront injectés automatiquement par les scripts -->
+
+    <!-- Contenu principal de la page -->
+    <main class="page-container-2025">
+        <!-- En-tête de la page -->
+        <div class="page-header-2025">
+            <h1 class="page-title-2025">🏛️ Ma Cité Romaine</h1>
+            <p class="page-subtitle-2025">Gérez et développez votre cité impériale</p>
+        </div>
+
+        <!-- Ressources de la cité -->
+        <div class="content-section-2025">
+            <div class="city-resources">
+                <h2 class="resources-title">📊 Ressources de la Cité</h2>
+                <div class="resources-grid" id="cityResourcesGrid">
+                    <!-- Sera rempli dynamiquement -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Bâtiments de la cité -->
+        <div class="content-section-2025">
+            <h2 style="color: var(--page-primary-color); text-align: center; margin-bottom: 20px; font-size: 1.4rem;">
+                🏗️ Bâtiments de la Cité
+            </h2>
+            <div class="buildings-grid" id="buildingsGrid">
+                <!-- Sera rempli dynamiquement -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Configuration de la page
+        const pageConfig = {
+            title: 'Ma Cité',
+            icon: '🏛️',
+            color: '#FFD700',
+            currentView: 'city',
+            currentTab: 'empire'
+        };
+
+        // Données des bâtiments
+        const buildingsData = [
+            {
+                id: 'forum',
+                name: 'Forum Romain',
+                icon: '🏛️',
+                level: 5,
+                description: 'Centre administratif de votre cité. Augmente la population maximale.',
+                stats: {
+                    population: '+250',
+                    prestige: '+15'
+                },
+                canUpgrade: true,
+                upgradeCost: { gold: 1500, stone: 800 }
+            },
+            {
+                id: 'aqueduct',
+                name: 'Aqueduc',
+                icon: '🌊',
+                level: 3,
+                description: 'Apporte l\'eau pure à votre cité. Améliore la santé publique.',
+                stats: {
+                    sante: '+20%',
+                    population: '+100'
+                },
+                canUpgrade: true,
+                upgradeCost: { gold: 1200, stone: 600 }
+            },
+            {
+                id: 'market',
+                name: 'Marché',
+                icon: '🏪',
+                level: 4,
+                description: 'Centre commercial de la cité. Génère des revenus en or.',
+                stats: {
+                    revenus: '+45/h',
+                    commerce: '+25%'
+                },
+                canUpgrade: true,
+                upgradeCost: { gold: 1000, wood: 400 }
+            },
+            {
+                id: 'temple',
+                name: 'Temple de Jupiter',
+                icon: '⛩️',
+                level: 2,
+                description: 'Temple dédié au roi des dieux. Augmente la faveur divine.',
+                stats: {
+                    faveur: '+30',
+                    culture: '+20'
+                },
+                canUpgrade: true,
+                upgradeCost: { gold: 2000, stone: 1000 }
+            },
+            {
+                id: 'barracks',
+                name: 'Caserne',
+                icon: '🏰',
+                level: 3,
+                description: 'Entraîne vos légionnaires. Augmente la capacité militaire.',
+                stats: {
+                    soldats: '+50',
+                    entrainement: '+15%'
+                },
+                canUpgrade: true,
+                upgradeCost: { gold: 1800, iron: 500 }
+            },
+            {
+                id: 'granary',
+                name: 'Grenier',
+                icon: '🌾',
+                level: 4,
+                description: 'Stocke la nourriture de votre cité. Augmente la capacité de stockage.',
+                stats: {
+                    stockage: '+2000',
+                    conservation: '+10%'
+                },
+                canUpgrade: false,
+                reason: 'Niveau maximum atteint'
+            }
+        ];
+
+        // Ressources de la cité
+        const cityResources = {
+            population: { icon: '👥', name: 'Population', amount: 1250, max: 1500, color: '#4169E1' },
+            happiness: { icon: '😊', name: 'Bonheur', amount: 85, max: 100, color: '#32CD32', unit: '%' },
+            health: { icon: '❤️', name: 'Santé', amount: 78, max: 100, color: '#FF6347', unit: '%' },
+            culture: { icon: '🎭', name: 'Culture', amount: 156, max: 200, color: '#9370DB' },
+            prestige: { icon: '👑', name: 'Prestige', amount: 89, max: 150, color: '#FFD700' },
+            defense: { icon: '🛡️', name: 'Défense', amount: 234, max: 300, color: '#B22222' }
+        };
+
+        // Initialisation de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePage2025();
+        });
+
+        function initializePage2025() {
+            // Créer les particules
+            createParticles2025();
+            
+            // Initialiser les systèmes mobiles
+            initializeMobileSystems();
+            
+            // Initialiser le contenu de la page
+            initializePageContent();
+            
+            console.log('🚀 Page Cité 2025 initialisée');
+        }
+
+        function initializeMobileSystems() {
+            // S'assurer que les systèmes mobiles sont initialisés
+            if (window.imperiumHeader) {
+                updatePageResources();
+            }
+            
+            if (window.imperiumNavigation) {
+                window.imperiumNavigation.currentTab = pageConfig.currentTab;
+                window.imperiumNavigation.currentView = pageConfig.currentView;
+            }
+        }
+
+        function initializePageContent() {
+            // Remplir les ressources de la cité
+            renderCityResources();
+            
+            // Remplir les bâtiments
+            renderBuildings();
+            
+            // Démarrer les mises à jour périodiques
+            startPeriodicUpdates();
+        }
+
+        function renderCityResources() {
+            const container = document.getElementById('cityResourcesGrid');
+            if (!container) return;
+            
+            container.innerHTML = Object.entries(cityResources).map(([key, resource]) => `
+                <div class="resource-card" data-resource="${key}">
+                    <div class="resource-icon-large" style="color: ${resource.color}">${resource.icon}</div>
+                    <div class="resource-name">${resource.name}</div>
+                    <div class="resource-amount" style="color: ${resource.color}">
+                        ${resource.amount}${resource.unit || ''}
+                        ${resource.max ? `<span style="color: var(--text-muted); font-size: 0.8rem;">/${resource.max}</span>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderBuildings() {
+            const container = document.getElementById('buildingsGrid');
+            if (!container) return;
+            
+            container.innerHTML = buildingsData.map(building => `
+                <div class="building-card-2025" data-building="${building.id}">
+                    <div class="building-header">
+                        <div class="building-icon">${building.icon}</div>
+                        <div class="building-info">
+                            <h3>${building.name}</h3>
+                            <div class="building-level">Niveau ${building.level}</div>
+                        </div>
+                    </div>
+                    <div class="building-description">${building.description}</div>
+                    <div class="building-stats">
+                        ${Object.entries(building.stats).map(([stat, value]) => `
+                            <div class="stat-item">
+                                <div class="stat-label">${stat.charAt(0).toUpperCase() + stat.slice(1)}</div>
+                                <div class="stat-value">${value}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="building-actions">
+                        <button class="btn-upgrade" 
+                                ${!building.canUpgrade ? 'disabled' : ''}
+                                onclick="upgradeBuilding('${building.id}')">
+                            ${building.canUpgrade ? 
+                                `Améliorer (${Object.entries(building.upgradeCost || {}).map(([res, cost]) => `${cost} ${res}`).join(', ')})` : 
+                                building.reason || 'Non disponible'
+                            }
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function upgradeBuilding(buildingId) {
+            const building = buildingsData.find(b => b.id === buildingId);
+            if (!building || !building.canUpgrade) return;
+            
+            // Vérifier les ressources (simulation)
+            const hasResources = true; // À implémenter avec le vrai système de ressources
+            
+            if (hasResources) {
+                // Simuler l'amélioration
+                building.level++;
+                
+                // Mettre à jour l'affichage
+                renderBuildings();
+                
+                // Notification de succès
+                showNotification2025(`${building.name} amélioré au niveau ${building.level}!`, 'success');
+                
+                // Mettre à jour les ressources du header
+                if (window.imperiumHeader) {
+                    // Déduire les coûts
+                    Object.entries(building.upgradeCost).forEach(([resource, cost]) => {
+                        window.imperiumHeader.updateResource(resource, -cost);
+                    });
+                }
+            } else {
+                showNotification2025('Ressources insuffisantes!', 'error');
+            }
+        }
+
+        function updatePageResources() {
+            // Mettre à jour les ressources dans le header
+            if (window.imperiumHeader && typeof window.imperiumHeader.updateResourcesDisplay === 'function') {
+                window.imperiumHeader.updateResourcesDisplay();
+            }
+        }
+
+        function startPeriodicUpdates() {
+            // Mettre à jour les ressources toutes les 30 secondes
+            setInterval(() => {
+                // Simuler la production de ressources
+                Object.keys(cityResources).forEach(key => {
+                    const resource = cityResources[key];
+                    if (resource.max && resource.amount < resource.max) {
+                        const increase = Math.floor(Math.random() * 3) + 1;
+                        resource.amount = Math.min(resource.max, resource.amount + increase);
+                    }
+                });
+                
+                // Mettre à jour l'affichage
+                renderCityResources();
+                updatePageResources();
+            }, 30000);
+        }
+
+        function createParticles2025() {
+            const particlesContainer = document.getElementById('particles2025');
+            if (!particlesContainer) return;
+            
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle-2025';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                
+                // Couleurs dorées pour la cité
+                const colors = ['#FFD700', '#FFA500', '#DAA520'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Fonction de navigation commune
+        function navigateTo(page) {
+            // Animation de sortie
+            document.body.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            document.body.style.opacity = '0';
+            document.body.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                // Mapping des pages
+                const routes = {
+                    'index': '../../index.html',
+                    'cite': 'Cite.html',
+                    'monde': 'Monde.html',
+                    'province': 'Province.html',
+                    'legions': '../Militaire/Légions.html',
+                    'flotte': '../Militaire/Flotte.html',
+                    'simulateur': '../Militaire/Simulateur.html',
+                    'academie': '../Developpement/Academie.html',
+                    'commerce': '../Developpement/Commerce.html',
+                    'alliance': '../Social/Alliance.html',
+                    'diplomatie': '../Social/Diplomatie.html',
+                    'messages': '../Social/Messsages.html',
+                    'premium': '../Premium/Premium.html'
+                };
+                
+                if (routes[page]) {
+                    window.location.href = routes[page];
+                } else {
+                    console.warn('Route non trouvée:', page);
+                }
+            }, 300);
+        }
+
+        // Notifications modernes
+        function showNotification2025(message, type = 'info', duration = 4000) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 16px;
+                left: 16px;
+                max-width: 400px;
+                margin: 0 auto;
+                background: linear-gradient(135deg, 
+                    ${type === 'success' ? '#22c55e' : type === 'error' ? '#dc2626' : '#3b82f6'}, 
+                    ${type === 'success' ? '#16a34a' : type === 'error' ? '#b91c1c' : '#2563eb'});
+                color: white;
+                padding: 16px 20px;
+                border-radius: 12px;
+                font-weight: 600;
+                z-index: 10000;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255,255,255,0.2);
+                animation: notificationSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                text-align: center;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px; justify-content: center;">
+                    <span style="font-size: 1.2rem;">
+                        ${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}
+                    </span>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'notificationSlideOut 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+                setTimeout(() => notification.remove(), 400);
+            }, duration);
+        }
+
+        // Styles d'animation pour les notifications
+        const notificationStyles = document.createElement('style');
+        notificationStyles.textContent = `
+            @keyframes notificationSlideIn {
+                from { 
+                    opacity: 0; 
+                    transform: translateY(-20px) scale(0.9); 
+                }
+                to { 
+                    opacity: 1; 
+                    transform: translateY(0) scale(1); 
+                }
+            }
+            
+            @keyframes notificationSlideOut {
+                from { 
+                    opacity: 1; 
+                    transform: translateY(0) scale(1); 
+                }
+                to { 
+                    opacity: 0; 
+                    transform: translateY(-20px) scale(0.9); 
+                }
+            }
+        `;
+        document.head.appendChild(notificationStyles);
+    </script>
+</body>
+</html>
