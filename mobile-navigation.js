@@ -183,8 +183,39 @@ class MobileNavigation {
         // Utiliser la fonction existante de changement de vue
         if (typeof switchView === 'function') {
             switchView(viewName);
+        } else if (typeof navigateTo === 'function') {
+            // Utiliser la navigation commune si disponible
+            navigateTo(viewName);
         } else {
-            console.warn(`Vue ${viewName} non trouvée`);
+            // Navigation de fallback pour les pages individuelles
+            this.navigateToPage(viewName);
+        }
+    }
+    
+    navigateToPage(viewName) {
+        // Mapping des vues vers les pages
+        const viewToPageMap = {
+            'city': 'cite',
+            'province': 'province', 
+            'world': 'monde',
+            'legions': 'legions',
+            'fleets': 'flotte',
+            'simulator': 'simulateur',
+            'academy': 'academie',
+            'commerce': 'commerce',
+            'alliance': 'alliance',
+            'diplomacy': 'diplomatie',
+            'messages': 'messages',
+            'premium': 'premium'
+        };
+        
+        const pageKey = viewToPageMap[viewName] || viewName;
+        
+        // Utiliser la fonction de navigation commune
+        if (typeof navigateTo === 'function') {
+            navigateTo(pageKey);
+        } else {
+            console.warn(`Navigation vers ${viewName} non disponible`);
         }
     }
 

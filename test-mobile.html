@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Test Mobile - IMPERIUM</title>
+    
+    <!-- Scripts mobiles -->
+    <script src="mobile-navigation.js"></script>
+    <script src="mobile-touch-handler.js"></script>
+    
+    <!-- Styles mobiles -->
+    <link rel="stylesheet" href="mobile-styles.css">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #1e293b;
+            color: white;
+        }
+        
+        .test-container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .test-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: #d97706;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            min-height: 48px;
+        }
+        
+        .test-card {
+            background: #334155;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #d97706;
+        }
+        
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background: #22c55e;
+        }
+        
+        .error {
+            background: #ef4444;
+        }
+        
+        .log {
+            background: #334155;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Test Mobile IMPERIUM</h1>
+        
+        <div id="status" class="status">
+            Initialisation...
+        </div>
+        
+        <div class="test-card touch-interactive">
+            <h3>Test Carte Interactive</h3>
+            <p>Tapez, double-tapez ou appuyez longuement sur cette carte</p>
+        </div>
+        
+        <button class="test-button touch-interactive" id="test-btn-1">
+            Test Bouton 1
+        </button>
+        
+        <button class="test-button touch-interactive" id="test-btn-2">
+            Test Bouton 2
+        </button>
+        
+        <div class="test-card">
+            <h3>Informations Détectées</h3>
+            <p><strong>User Agent:</strong> <span id="user-agent"></span></p>
+            <p><strong>Largeur d'écran:</strong> <span id="screen-width"></span>px</p>
+            <p><strong>Mobile détecté:</strong> <span id="mobile-detected"></span></p>
+            <p><strong>Support tactile:</strong> <span id="touch-support"></span></p>
+        </div>
+        
+        <div id="log" class="log">
+            <strong>Journal des événements:</strong><br>
+        </div>
+    </div>
+
+    <script>
+        let logElement = document.getElementById('log');
+        let statusElement = document.getElementById('status');
+        
+        function log(message) {
+            console.log(message);
+            logElement.innerHTML += new Date().toLocaleTimeString() + ': ' + message + '<br>';
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+        
+        function updateStatus(message, isError = false) {
+            statusElement.textContent = message;
+            statusElement.className = isError ? 'status error' : 'status';
+        }
+        
+        // Remplir les informations détectées
+        document.getElementById('user-agent').textContent = navigator.userAgent.substring(0, 50) + '...';
+        document.getElementById('screen-width').textContent = window.innerWidth;
+        document.getElementById('mobile-detected').textContent = window.innerWidth <= 768 ? 'Oui' : 'Non';
+        document.getElementById('touch-support').textContent = 'ontouchstart' in window ? 'Oui' : 'Non';
+        
+        // Test d'initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            log('DOM chargé');
+            
+            // Vérifier si les classes mobiles sont disponibles
+            if (typeof MobileTouchHandler !== 'undefined') {
+                log('✅ MobileTouchHandler disponible');
+                window.mobileTouchHandler = new MobileTouchHandler();
+                updateStatus('Gestionnaire tactile initialisé');
+            } else {
+                log('❌ MobileTouchHandler non disponible');
+                updateStatus('Erreur: Gestionnaire tactile non trouvé', true);
+            }
+            
+            if (typeof MobileNavigation !== 'undefined') {
+                log('✅ MobileNavigation disponible');
+                window.mobileNav = new MobileNavigation();
+                updateStatus('Navigation mobile initialisée');
+            } else {
+                log('❌ MobileNavigation non disponible');
+                updateStatus('Erreur: Navigation mobile non trouvée', true);
+            }
+            
+            // Écouter les événements tactiles personnalisés
+            document.addEventListener('mobileTap', function(event) {
+                log('🔥 Tap détecté sur: ' + event.target.textContent.substring(0, 30));
+            });
+            
+            document.addEventListener('mobileDoubleTap', function(event) {
+                log('🔥🔥 Double tap détecté sur: ' + event.target.textContent.substring(0, 30));
+            });
+            
+            document.addEventListener('mobileLongPress', function(event) {
+                log('🔥🔥🔥 Appui long détecté sur: ' + event.target.textContent.substring(0, 30));
+            });
+            
+            document.addEventListener('mobileSwipe', function(event) {
+                log('👆 Swipe ' + event.detail.direction + ' détecté');
+            });
+            
+            // Test des boutons
+            document.getElementById('test-btn-1').addEventListener('click', function() {
+                log('Clic classique sur bouton 1');
+            });
+            
+            document.getElementById('test-btn-2').addEventListener('click', function() {
+                log('Clic classique sur bouton 2');
+            });
+            
+            log('Tests initialisés - Essayez d\'interagir avec les éléments');
+        });
+        
+        // Test de redimensionnement
+        window.addEventListener('resize', function() {
+            document.getElementById('screen-width').textContent = window.innerWidth;
+            document.getElementById('mobile-detected').textContent = window.innerWidth <= 768 ? 'Oui' : 'Non';
+            log('Redimensionnement: ' + window.innerWidth + 'px');
+        });
+        
+        // Test d'orientation
+        window.addEventListener('orientationchange', function() {
+            setTimeout(function() {
+                log('Changement d\'orientation détecté');
+                document.getElementById('screen-width').textContent = window.innerWidth;
+            }, 100);
+        });
+    </script>
+</body>
+</html>
