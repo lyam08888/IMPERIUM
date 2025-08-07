@@ -6,6 +6,7 @@ import StartScreen from './src/components/StartScreen';
 import GameHeader from './src/components/GameHeader';
 import GameFooter from './src/components/GameFooter';
 import TutorialManager from './src/components/TutorialManager';
+import NavigationManager from './src/components/NavigationManager';
 import { GameResources } from './src/components/CityMap';
 
 interface GameState {
@@ -40,6 +41,8 @@ const initialGameState: GameState = {
 
 const App: React.FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
+  const [showNavigation, setShowNavigation] = useState(false);
+  const [currentPage, setCurrentPage] = useState('cite');
   const [gameState, setGameState] = useState<GameState>(initialGameState);
   const [eventLog, setEventLog] = useState('Bienvenue dans IMPERIUM !');
   const [notification, setNotification] = useState<{
@@ -113,6 +116,47 @@ const App: React.FC = () => {
   const handleObjectives = () => {
     showNotification('Objectifs : Développez votre cité et votre empire !', 'info');
     setEventLog('🎯 Consultation des objectifs');
+  };
+
+  const handleNavigate = (pageKey: string) => {
+    setCurrentPage(pageKey);
+    if (pageKey === 'cite') {
+      setShowNavigation(false);
+      setEventLog(`📍 Navigation vers : Ma Cité`);
+    } else {
+      setShowNavigation(true);
+      setEventLog(`📍 Navigation vers : ${getPageTitle(pageKey)}`);
+    }
+    showNotification(`Navigation vers ${getPageTitle(pageKey)}`, 'info');
+  };
+
+  const getPageTitle = (pageKey: string): string => {
+    const pageTitles: { [key: string]: string } = {
+      'cite': 'Ma Cité',
+      'monde': 'Monde',
+      'province': 'Province',
+      'academie': 'Académie',
+      'commerce': 'Commerce',
+      'legions': 'Légions',
+      'flotte': 'Flotte',
+      'simulateur': 'Simulateur',
+      'diplomatie': 'Diplomatie',
+      'alliance': 'Alliance',
+      'messages': 'Messages',
+      'premium': 'Premium'
+    };
+    return pageTitles[pageKey] || 'Page inconnue';
+  };
+
+  const handleSectionSelect = (sectionKey: string) => {
+    if (sectionKey === 'empire') {
+      setShowNavigation(false);
+      setCurrentPage('cite');
+      setEventLog('🏛️ Retour à l\'Empire');
+    } else {
+      setEventLog(`🚧 Section ${sectionKey} en développement`);
+      showNotification('Cette section sera bientôt disponible !', 'info');
+    }
   };
 
   const showNotification = (message: string, severity: 'success' | 'error' | 'info' | 'warning') => {
@@ -201,15 +245,24 @@ const App: React.FC = () => {
               playerName={gameState.player.name}
               playerTitle={gameState.player.title}
               playerLevel={gameState.player.level}
+              onNavigate={handleNavigate}
+              currentPage={currentPage}
             />
 
             {/* Main Game Content */}
             <Box sx={{ flexGrow: 1, padding: 2 }}>
-              <TutorialManager 
-                autoStart={!gameState.tutorial.completed}
-                onResourceUpdate={updateResources}
-                onEventLog={updateEventLog}
-              />
+              {showNavigation ? (
+                <NavigationManager 
+                  onSectionSelect={handleSectionSelect}
+                  currentSection="empire"
+                />
+              ) : (
+                <TutorialManager 
+                  autoStart={!gameState.tutorial.completed}
+                  onResourceUpdate={updateResources}
+                  onEventLog={updateEventLog}
+                />
+              )}
             </Box>
 
             {/* Game Footer */}

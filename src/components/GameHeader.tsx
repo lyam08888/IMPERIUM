@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, Chip, Avatar } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import MenuIcon from '@mui/icons-material/Menu';
 import { GameResources } from './CityMap';
+import NavigationDrawer, { MenuButton } from './NavigationDrawer';
 
 const HeaderContainer = styled(Box)({
   background: 'linear-gradient(135deg, var(--dark-marble) 0%, var(--dark-stone) 100%)',
@@ -22,6 +24,12 @@ const HeaderContent = styled(Box)({
     flexDirection: 'column',
     gap: '1rem'
   }
+});
+
+const LeftSection = styled(Box)({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '1rem'
 });
 
 const Logo = styled(Typography)({
@@ -117,14 +125,27 @@ interface GameHeaderProps {
   playerName?: string;
   playerTitle?: string;
   playerLevel?: number;
+  onNavigate?: (pageKey: string) => void;
+  currentPage?: string;
 }
 
 const GameHeader: React.FC<GameHeaderProps> = ({
   resources,
   playerName = 'Marcus Aurelius',
   playerTitle = 'Consul',
-  playerLevel = 12
+  playerLevel = 12,
+  onNavigate,
+  currentPage = 'cite'
 }) => {
+  const [navigationOpen, setNavigationOpen] = useState(false);
+
+  const handleNavigationToggle = () => {
+    setNavigationOpen(!navigationOpen);
+  };
+
+  const handleNavigationClose = () => {
+    setNavigationOpen(false);
+  };
   const resourcesData = [
     { key: 'gold', icon: '💰', value: resources.gold },
     { key: 'wood', icon: '🌲', value: resources.wood },
@@ -136,9 +157,14 @@ const GameHeader: React.FC<GameHeaderProps> = ({
   return (
     <HeaderContainer>
       <HeaderContent>
-        <Logo variant="h1">
-          IMPERIUM
-        </Logo>
+        <LeftSection>
+          <MenuButton onClick={handleNavigationToggle}>
+            <MenuIcon />
+          </MenuButton>
+          <Logo variant="h1">
+            IMPERIUM
+          </Logo>
+        </LeftSection>
         
         <ResourcesDisplay>
           {resourcesData.map((resource) => (
@@ -168,6 +194,13 @@ const GameHeader: React.FC<GameHeaderProps> = ({
           </PlayerDetails>
         </PlayerInfo>
       </HeaderContent>
+
+      <NavigationDrawer
+        open={navigationOpen}
+        onClose={handleNavigationClose}
+        currentPage={currentPage}
+        onNavigate={onNavigate}
+      />
     </HeaderContainer>
   );
 };
