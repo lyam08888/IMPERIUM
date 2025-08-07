@@ -1265,21 +1265,10 @@
                     startContent.classList.add('hidden');
                     loader.classList.remove('hidden');
 
-                    // Simuler un chargement
+                    // Simuler un chargement puis rediriger vers Cite.html
                     setTimeout(() => {
-                        // Cacher l'écran de démarrage et montrer l'interface de jeu
-                        startScreen.classList.add('hidden');
-                        imperiumUI.classList.add('visible');
-                        
-                        // Initialiser le jeu complet
-                        initGame();
-                        
-                        // Démarrer le tutoriel si pas encore terminé
-                        if (!gameState.player.tutorialCompleted) {
-                            setTimeout(() => {
-                                tutorial.startTutorial();
-                            }, 1000);
-                        }
+                        // Rediriger vers la page Cité
+                        window.location.href = 'Navigation/Empire/Cite.html';
                     }, 2500); // 2.5 secondes de chargement
                 });
             }
@@ -2144,4 +2133,3 @@
     </script>
 </body>
 </html>
-
