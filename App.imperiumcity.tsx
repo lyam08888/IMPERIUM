@@ -1,10 +1,143 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { CssBaseline, Box } from '@mui/material';
+import { CssBaseline, Box, Snackbar, Alert } from '@mui/material';
 import theme from './src/theme';
+import StartScreen from './src/components/StartScreen';
+import GameHeader from './src/components/GameHeader';
+import GameFooter from './src/components/GameFooter';
 import TutorialManager from './src/components/TutorialManager';
+import { GameResources } from './src/components/CityMap';
+
+interface GameState {
+  resources: GameResources;
+  player: {
+    name: string;
+    title: string;
+    level: number;
+  };
+  tutorial: {
+    completed: boolean;
+  };
+}
+
+const initialGameState: GameState = {
+  resources: {
+    gold: 5000,
+    wood: 2500,
+    stone: 1800,
+    population: 150,
+    happiness: 85
+  },
+  player: {
+    name: 'Marcus Aurelius',
+    title: 'Consul',
+    level: 12
+  },
+  tutorial: {
+    completed: localStorage.getItem('imperiumTutorialCompleted') === 'true'
+  }
+};
 
 const App: React.FC = () => {
+  const [gameStarted, setGameStarted] = useState(false);
+  const [gameState, setGameState] = useState<GameState>(initialGameState);
+  const [eventLog, setEventLog] = useState('Bienvenue dans IMPERIUM !');
+  const [notification, setNotification] = useState<{
+    open: boolean;
+    message: string;
+    severity: 'success' | 'error' | 'info' | 'warning';
+  }>({
+    open: false,
+    message: '',
+    severity: 'info'
+  });
+
+  useEffect(() => {
+    // Load saved game state
+    const savedState = localStorage.getItem('imperiumGameState');
+    if (savedState) {
+      try {
+        const parsed = JSON.parse(savedState);
+        setGameState(prev => ({ ...prev, ...parsed }));
+      } catch (error) {
+        console.error('Failed to load saved game state:', error);
+      }
+    }
+  }, []);
+
+  const handleStartGame = () => {
+    setGameStarted(true);
+    setEventLog('🏛️ Empire initialisé avec succès !');
+    
+    // Auto-start tutorial for new players
+    if (!gameState.tutorial.completed) {
+      setTimeout(() => {
+        showNotification('Tutoriel disponible ! Cliquez sur le bouton d\'aide pour commencer.', 'info');
+      }, 2000);
+    }
+  };
+
+  const handleSaveGame = () => {
+    try {
+      localStorage.setItem('imperiumGameState', JSON.stringify(gameState));
+      showNotification('Partie sauvegardée avec succès !', 'success');
+      setEventLog('💾 Partie sauvegardée');
+    } catch (error) {
+      showNotification('Erreur lors de la sauvegarde', 'error');
+      console.error('Save failed:', error);
+    }
+  };
+
+  const handleLoadGame = () => {
+    try {
+      const savedState = localStorage.getItem('imperiumGameState');
+      if (savedState) {
+        const parsed = JSON.parse(savedState);
+        setGameState(prev => ({ ...prev, ...parsed }));
+        showNotification('Partie chargée avec succès !', 'success');
+        setEventLog('📂 Partie chargée');
+      } else {
+        showNotification('Aucune sauvegarde trouvée', 'info');
+      }
+    } catch (error) {
+      showNotification('Erreur lors du chargement', 'error');
+      console.error('Load failed:', error);
+    }
+  };
+
+  const handleTutorial = () => {
+    showNotification('Tutoriel démarré ! Suivez les instructions.', 'info');
+    setEventLog('📚 Tutoriel en cours...');
+  };
+
+  const handleObjectives = () => {
+    showNotification('Objectifs : Développez votre cité et votre empire !', 'info');
+    setEventLog('🎯 Consultation des objectifs');
+  };
+
+  const showNotification = (message: string, severity: 'success' | 'error' | 'info' | 'warning') => {
+    setNotification({
+      open: true,
+      message,
+      severity
+    });
+  };
+
+  const handleCloseNotification = () => {
+    setNotification(prev => ({ ...prev, open: false }));
+  };
+
+  const updateResources = (newResources: Partial<GameResources>) => {
+    setGameState(prev => ({
+      ...prev,
+      resources: { ...prev.resources, ...newResources }
+    }));
+  };
+
+  const updateEventLog = (message: string) => {
+    setEventLog(message);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -17,11 +150,12 @@ const App: React.FC = () => {
             linear-gradient(135deg, #0f172a 0%, #1e293b 100%)
           `,
           color: '#e2e8f0',
-          fontFamily: '"Times New Roman", serif',
-          overflow: 'hidden'
+          fontFamily: '"Cormorant Garamond", "Times New Roman", serif',
+          overflow: 'hidden',
+          position: 'relative'
         }}
       >
-        {/* Particles Background */}
+        {/* Animated particles background */}
         <Box
           sx={{
             position: 'fixed',
@@ -44,10 +178,75 @@ const App: React.FC = () => {
           }}
         />
 
-        {/* Main Application */}
-        <Box sx={{ position: 'relative', zIndex: 10, height: '100vh', padding: 2 }}>
-          <TutorialManager autoStart={true} />
-        </Box>
+        {/* Start Screen */}
+        <StartScreen 
+          visible={!gameStarted} 
+          onStart={handleStartGame} 
+        />
+
+        {/* Main Game Interface */}
+        {gameStarted && (
+          <Box 
+            sx={{ 
+              position: 'relative', 
+              zIndex: 10, 
+              height: '100vh',
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            {/* Game Header */}
+            <GameHeader
+              resources={gameState.resources}
+              playerName={gameState.player.name}
+              playerTitle={gameState.player.title}
+              playerLevel={gameState.player.level}
+            />
+
+            {/* Main Game Content */}
+            <Box sx={{ flexGrow: 1, padding: 2 }}>
+              <TutorialManager 
+                autoStart={!gameState.tutorial.completed}
+                onResourceUpdate={updateResources}
+                onEventLog={updateEventLog}
+              />
+            </Box>
+
+            {/* Game Footer */}
+            <GameFooter
+              eventLog={eventLog}
+              onSave={handleSaveGame}
+              onLoad={handleLoadGame}
+              onTutorial={handleTutorial}
+              onObjectives={handleObjectives}
+            />
+          </Box>
+        )}
+
+        {/* Notification System */}
+        <Snackbar
+          open={notification.open}
+          autoHideDuration={4000}
+          onClose={handleCloseNotification}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        >
+          <Alert
+            onClose={handleCloseNotification}
+            severity={notification.severity}
+            variant="filled"
+            sx={{
+              background: notification.severity === 'success' 
+                ? 'linear-gradient(135deg, var(--success-green), #16a34a)'
+                : notification.severity === 'error'
+                ? 'linear-gradient(135deg, var(--roman-red), #ef4444)'
+                : 'linear-gradient(135deg, var(--gold-primary), var(--gold-secondary))',
+              color: 'white',
+              fontWeight: 'bold'
+            }}
+          >
+            {notification.message}
+          </Alert>
+        </Snackbar>
       </Box>
     </ThemeProvider>
   );

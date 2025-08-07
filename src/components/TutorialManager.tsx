@@ -3,7 +3,7 @@ import { Box, Fab, Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import HelpIcon from '@mui/icons-material/Help';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import CityMap from './CityMap';
+import CityMap, { GameResources } from './CityMap';
 
 const TutorialContainer = styled(Box)({
   position: 'relative',
@@ -37,9 +37,15 @@ const TutorialOverlay = styled(Box)({
 
 interface TutorialManagerProps {
   autoStart?: boolean;
+  onResourceUpdate?: (resources: Partial<GameResources>) => void;
+  onEventLog?: (message: string) => void;
 }
 
-const TutorialManager: React.FC<TutorialManagerProps> = ({ autoStart = false }) => {
+const TutorialManager: React.FC<TutorialManagerProps> = ({ 
+  autoStart = false,
+  onResourceUpdate,
+  onEventLog
+}) => {
   const [tutorialActive, setTutorialActive] = useState(autoStart);
   const [currentStep, setCurrentStep] = useState(0);
   const [tutorialCompleted, setTutorialCompleted] = useState(false);
@@ -53,28 +59,45 @@ const TutorialManager: React.FC<TutorialManagerProps> = ({ autoStart = false }) 
       // Auto-start tutorial for new users
       setTimeout(() => {
         setTutorialActive(true);
+        onEventLog?.('📚 Tutoriel démarré - Suivez les instructions !');
       }, 1000);
     }
-  }, [autoStart]);
+  }, [autoStart, onEventLog]);
 
   const handleTutorialStep = (step: number) => {
     setCurrentStep(step);
+    
+    // Update event log based on tutorial step
+    const stepMessages = [
+      '🏛️ Cliquez sur l\'Hôtel de Ville pour commencer',
+      '🏗️ Construisez votre premier bâtiment',
+      '💰 Vérifiez la production de vos mines',
+      '⬆️ Améliorez vos bâtiments pour plus d\'efficacité',
+      '🎉 Tutoriel terminé ! Vous maîtrisez les bases !'
+    ];
+    
+    if (stepMessages[step]) {
+      onEventLog?.(stepMessages[step]);
+    }
     
     // Complete tutorial when reaching the end
     if (step >= 5) {
       setTutorialActive(false);
       setTutorialCompleted(true);
       localStorage.setItem('imperiumTutorialCompleted', 'true');
+      onEventLog?.('✅ Tutoriel terminé avec succès !');
     }
   };
 
   const startTutorial = () => {
     setCurrentStep(0);
     setTutorialActive(true);
+    onEventLog?.('📚 Redémarrage du tutoriel...');
   };
 
   const stopTutorial = () => {
     setTutorialActive(false);
+    onEventLog?.('❌ Tutoriel interrompu');
   };
 
   return (
@@ -85,6 +108,7 @@ const TutorialManager: React.FC<TutorialManagerProps> = ({ autoStart = false }) 
         tutorialActive={tutorialActive}
         currentTutorialStep={currentStep}
         onTutorialStep={handleTutorialStep}
+        onResourceUpdate={onResourceUpdate}
       />
 
       {!tutorialActive && (

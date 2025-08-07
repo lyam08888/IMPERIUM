@@ -110,6 +110,7 @@ interface CityMapProps {
   onTutorialStep?: (step: number) => void;
   tutorialActive?: boolean;
   currentTutorialStep?: number;
+  onResourceUpdate?: (resources: Partial<GameResources>) => void;
 }
 
 const initialBuildings: Building[] = [
@@ -132,7 +133,8 @@ const initialResources: GameResources = {
 const CityMap: React.FC<CityMapProps> = ({ 
   onTutorialStep, 
   tutorialActive = false, 
-  currentTutorialStep = 0 
+  currentTutorialStep = 0,
+  onResourceUpdate
 }) => {
   const [buildings, setBuildings] = useState<Building[]>(initialBuildings);
   const [resources, setResources] = useState<GameResources>(initialResources);
@@ -156,12 +158,16 @@ const CityMap: React.FC<CityMapProps> = ({
             }
           }
         });
+        
+        // Update parent component with new resources
+        onResourceUpdate?.(newResources);
+        
         return newResources;
       });
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [buildings]);
+  }, [buildings, onResourceUpdate]);
 
   useEffect(() => {
     // Handle building upgrades
