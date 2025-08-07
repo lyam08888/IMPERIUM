@@ -1064,6 +1064,33 @@
             gap: 1rem;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         }
+
+        /* ===== ACTIVATION DU NOUVEAU SYSTÈME DE NAVIGATION POPUP 2025 ===== */
+        
+        /* Masquer complètement l'ancienne navigation latérale */
+        .imperium-sidebar {
+            display: none !important;
+        }
+        
+        /* Ajuster le layout pour utiliser toute la largeur sans sidebar */
+        .imperium-body {
+            padding: 1.5rem 2rem !important;
+        }
+        
+        .main-content {
+            width: 100% !important;
+            max-width: none !important;
+        }
+        
+        /* S'assurer que le bouton gouvernail est visible */
+        .navigation-helm-button {
+            z-index: 9999 !important;
+        }
+        
+        /* S'assurer que la popup est au-dessus de tout */
+        .navigation-popup-overlay {
+            z-index: 10000 !important;
+        }
     </style>
 </head>
 <body>
@@ -2164,6 +2191,79 @@
                 }, 300);
             });
         }
+    </script>
+
+    <!-- ===== INITIALISATION FORCÉE DU NOUVEAU SYSTÈME DE NAVIGATION 2025 ===== -->
+    <script>
+        // S'assurer que le nouveau système de navigation se charge correctement
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Initialisation du système de navigation popup 2025...');
+            
+            // Attendre que tous les scripts soient chargés
+            setTimeout(function() {
+                // Vérifier si le système est initialisé
+                if (window.navigationPopupSystem) {
+                    console.log('✅ Système de navigation popup 2025 initialisé avec succès !');
+                    
+                    // Vérifier la présence du bouton gouvernail
+                    const helmButton = document.querySelector('.navigation-helm-button');
+                    if (helmButton) {
+                        console.log('✅ Bouton gouvernail créé et visible');
+                        
+                        // Ajouter un indicateur visuel temporaire
+                        setTimeout(function() {
+                            helmButton.style.animation = 'helm-pulse 2s infinite';
+                        }, 2000);
+                    } else {
+                        console.warn('⚠️ Bouton gouvernail non trouvé, tentative de recréation...');
+                        if (window.navigationPopupSystem.createHelmButton) {
+                            window.navigationPopupSystem.createHelmButton();
+                        }
+                    }
+                    
+                    // Vérifier la popup
+                    const popup = document.querySelector('.navigation-popup-overlay');
+                    if (popup) {
+                        console.log('✅ Popup de navigation créée');
+                    } else {
+                        console.warn('⚠️ Popup non trouvée, tentative de recréation...');
+                        if (window.navigationPopupSystem.createPopupOverlay) {
+                            window.navigationPopupSystem.createPopupOverlay();
+                        }
+                    }
+                    
+                } else {
+                    console.error('❌ Système de navigation popup 2025 non initialisé !');
+                    console.log('🔄 Tentative de réinitialisation...');
+                    
+                    // Tentative de réinitialisation manuelle
+                    if (typeof NavigationPopupSystem !== 'undefined') {
+                        window.navigationPopupSystem = new NavigationPopupSystem();
+                        console.log('🔄 Réinitialisation manuelle effectuée');
+                    }
+                }
+            }, 1000);
+        });
+
+        // Fonction globale pour tester le système
+        window.testNavigationPopup = function() {
+            console.log('🧪 Test du système de navigation popup...');
+            
+            if (window.navigationPopupSystem) {
+                window.navigationPopupSystem.openPopup();
+                console.log('✅ Test réussi - popup ouverte');
+            } else {
+                console.error('❌ Test échoué - système non disponible');
+            }
+        };
+
+        // Message d'aide dans la console
+        setTimeout(function() {
+            console.log('💡 AIDE - Nouveau système de navigation:');
+            console.log('   • Cherchez le bouton gouvernail (⚓) en bas à droite');
+            console.log('   • Cliquez dessus pour ouvrir la navigation');
+            console.log('   • Tapez testNavigationPopup() dans la console pour tester');
+        }, 3000);
     </script>
 </body>
 </html>
