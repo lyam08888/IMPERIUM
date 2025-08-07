@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>DEMO - Navigation Popup 2025</title>
+    
+    <!-- Styles de base -->
+    <link rel="stylesheet" href="navigation-popup-2025.css">
+    
+    <style>
+        :root {
+            --gold-primary: #d97706;
+            --gold-secondary: #f59e0b;
+            --gold-light: #fbbf24;
+            --marble-white: #f8fafc;
+            --roman-red: #dc2626;
+            --roman-purple: #7c3aed;
+            --dark-stone: #1e293b;
+            --dark-marble: #334155;
+            --dark-bg: #0f172a;
+            --text-light: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-gold: rgba(217, 119, 6, 0.3);
+            --shadow-gold: rgba(217, 119, 6, 0.4);
+            --success-green: #22c55e;
+            --storage-full-red: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Times New Roman', serif;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(217, 119, 6, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-stone) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header similaire à IMPERIUM */
+        .demo-header {
+            background: linear-gradient(135deg, var(--dark-marble) 0%, var(--dark-stone) 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--border-gold);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .demo-logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
+        }
+
+        .demo-subtitle {
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 1rem;
+        }
+
+        /* Contenu principal */
+        .demo-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .demo-title {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .demo-description {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border-gold);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(217, 119, 6, 0.2);
+            border-color: var(--gold-primary);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--gold-primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-desc {
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .cta-section {
+            background: rgba(30, 41, 59, 0.6);
+            border: 2px solid var(--border-gold);
+            border-radius: 2rem;
+            padding: 3rem;
+            margin-top: 3rem;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            color: var(--gold-primary);
+            margin-bottom: 1rem;
+        }
+
+        .cta-text {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .demo-button {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            border: 2px solid var(--gold-light);
+            border-radius: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Times New Roman', serif;
+            margin: 0 1rem;
+        }
+
+        .demo-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px var(--shadow-gold);
+        }
+
+        .demo-button.secondary {
+            background: linear-gradient(135deg, var(--roman-red), #dc2626);
+            border-color: #dc2626;
+        }
+
+        /* Instructions flottantes */
+        .floating-instructions {
+            position: fixed;
+            bottom: 100px;
+            left: 30px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 2px solid var(--gold-primary);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            max-width: 300px;
+            z-index: 500;
+            animation: float-in 1s ease-out;
+        }
+
+        @keyframes float-in {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .instruction-title {
+            color: var(--gold-primary);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .instruction-text {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .demo-title {
+                font-size: 2rem;
+            }
+            
+            .demo-description {
+                font-size: 1.1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .floating-instructions {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                margin: 2rem auto;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="demo-header">
+        <div class="header-content">
+            <div>
+                <div class="demo-logo">IMPERIUM</div>
+                <div class="demo-subtitle">Système de Navigation 2025</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenu principal -->
+    <div class="demo-content">
+        <h1 class="demo-title">🚀 NOUVELLE NAVIGATION</h1>
+        <p class="demo-description">
+            Découvrez le nouveau système de navigation avec bouton gouvernail flottant. 
+            Plus moderne, plus intuitif, plus élégant !
+        </p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚓</div>
+                <div class="feature-title">Bouton Gouvernail</div>
+                <div class="feature-desc">
+                    Un bouton flottant élégant en bas à droite, toujours accessible, 
+                    avec des animations fluides et un design maritime.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🌟</div>
+                <div class="feature-title">Popup Moderne</div>
+                <div class="feature-desc">
+                    Interface popup avec fond flouté, sections organisées et 
+                    animations d'entrée pour une expérience utilisateur premium.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <div class="feature-title">Responsive</div>
+                <div class="feature-desc">
+                    Parfaitement adapté à tous les écrans : desktop, tablette et mobile, 
+                    avec des tailles et espacements optimisés.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <div class="feature-title">Design Cohérent</div>
+                <div class="feature-desc">
+                    Intégration parfaite avec le thème IMPERIUM : couleurs dorées, 
+                    effets de lumière et style romain authentique.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">Performance</div>
+                <div class="feature-desc">
+                    Code optimisé, animations GPU, chargement rapide et 
+                    navigation fluide sans ralentissement.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <div class="feature-title">Personnalisable</div>
+                <div class="feature-desc">
+                    API simple pour ajouter/supprimer des pages, modifier les sections 
+                    et personnaliser l'apparence selon vos besoins.
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2 class="cta-title">🎯 Testez Maintenant !</h2>
+            <p class="cta-text">
+                Cliquez sur le bouton gouvernail en bas à droite pour découvrir la nouvelle navigation.
+                Vous pouvez aussi utiliser les boutons ci-dessous pour tester les fonctionnalités.
+            </p>
+            <button class="demo-button" onclick="openNavigationPopup()">
+                🚀 Ouvrir la Navigation
+            </button>
+            <button class="demo-button secondary" onclick="window.location.href='index.html'">
+                🏛️ Retour à IMPERIUM
+            </button>
+        </div>
+    </div>
+
+    <!-- Instructions flottantes -->
+    <div class="floating-instructions">
+        <div class="instruction-title">💡 Comment utiliser :</div>
+        <div class="instruction-text">
+            1. Regardez en bas à droite → bouton ⚓<br>
+            2. Cliquez dessus pour ouvrir la popup<br>
+            3. Naviguez entre les sections<br>
+            4. Cliquez sur une page pour y accéder<br>
+            5. Fermez avec × ou Échap
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="navigation-popup-2025.js"></script>
+    
+    <script>
+        // Ajouter des effets visuels supplémentaires
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animation des cartes au scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observer toutes les cartes
+            document.querySelectorAll('.feature-card').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+
+            // Message de bienvenue
+            setTimeout(() => {
+                console.log('🎉 Bienvenue dans la démo du nouveau système de navigation !');
+                console.log('👀 Regardez en bas à droite pour voir le bouton gouvernail');
+            }, 1000);
+        });
+
+        // Fonction pour démontrer l'API
+        function demonstrateAPI() {
+            if (window.navigationPopupSystem) {
+                console.log('🔧 Démonstration de l\'API :');
+                console.log('- openNavigationPopup() : Ouvre la popup');
+                console.log('- closeNavigationPopup() : Ferme la popup');
+                console.log('- toggleNavigationPopup() : Bascule la popup');
+                
+                // Exemple d'ajout d'une page personnalisée
+                window.navigationPopupSystem.addPage('Empire', {
+                    key: 'demo-page',
+                    title: 'Page Démo',
+                    file: 'demo-navigation-popup.html',
+                    icon: '🎭',
+                    desc: 'Page de démonstration ajoutée dynamiquement'
+                });
+                
+                console.log('✅ Page démo ajoutée à la section Empire');
+            }
+        }
+
+        // Lancer la démonstration API après initialisation
+        setTimeout(demonstrateAPI, 2000);
+    </script>
+</body>
+</html>
