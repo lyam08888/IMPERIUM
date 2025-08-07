@@ -4,35 +4,39 @@
  */
 
 // ===== ÉTAT GLOBAL DU JEU =====
-let gameState = {
-    player: {
-        name: 'Marcus Aurelius',
-        level: 1,
-        xp: 0,
-        title: 'Citoyen',
-        tutorialCompleted: false,
-        currentTutorialStep: 0
-    },
-    resources: {
-        wood: 100,
-        stone: 50,
-        iron: 25,
-        wine: 10,
-        gold: 200,
-        research: 0
-    },
-    buildings: {},
-    technologies: [],
-    units: {},
-    messages: [],
-    gameStarted: Date.now(),
-    lastSave: null,
-    progression: {
-        unlockedFeatures: ['city'],
-        completedTasks: [],
-        currentObjectives: ['build_forum']
-    }
-};
+// gameState est défini dans game-engine.js - ne pas redéclarer ici
+// Vérifier que gameState existe, sinon initialiser un état minimal
+if (typeof gameState === 'undefined') {
+    window.gameState = {
+        player: {
+            name: 'Marcus Aurelius',
+            level: 1,
+            xp: 0,
+            title: 'Citoyen',
+            tutorialCompleted: false,
+            currentTutorialStep: 0
+        },
+        resources: {
+            wood: 100,
+            stone: 50,
+            iron: 25,
+            wine: 10,
+            gold: 200,
+            research: 0
+        },
+        buildings: {},
+        technologies: [],
+        units: {},
+        messages: [],
+        gameStarted: Date.now(),
+        lastSave: null,
+        progression: {
+            unlockedFeatures: ['city'],
+            completedTasks: [],
+            currentObjectives: ['build_forum']
+        }
+    };
+}
 
 // ===== FONCTIONS DE MESSAGERIE =====
 function creerNouveauMessage() {

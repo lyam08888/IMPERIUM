@@ -4,7 +4,9 @@
  */
 
 // Mapping des noms de boutons vers les fonctions
-const BUTTON_FUNCTION_MAPPING = {
+// Vérifier si déjà défini pour éviter les erreurs de redéclaration
+if (typeof BUTTON_FUNCTION_MAPPING === 'undefined') {
+    window.BUTTON_FUNCTION_MAPPING = {
     // Messages
     'nouveau-message': 'creerNouveauMessage',
     'actualiser-messages': 'actualiserMessages',
@@ -67,7 +69,8 @@ const TEXT_FUNCTION_MAPPING = {
     'Attaquer': 'attaquerProvince',
     'Détails': 'afficherDetailsProvince',
     'Recruter': 'recruterTroupes'
-};
+    };
+}
 
 // Classe principale pour la liaison des boutons
 class ButtonFunctionLinker {
@@ -86,8 +89,8 @@ class ButtonFunctionLinker {
     
     // Scanner les fonctions disponibles dans window
     scanAvailableFunctions() {
-        Object.keys(BUTTON_FUNCTION_MAPPING).forEach(buttonId => {
-            const functionName = BUTTON_FUNCTION_MAPPING[buttonId];
+        Object.keys(window.BUTTON_FUNCTION_MAPPING || {}).forEach(buttonId => {
+            const functionName = window.BUTTON_FUNCTION_MAPPING[buttonId];
             if (typeof window[functionName] === 'function') {
                 this.availableFunctions.add(functionName);
                 console.log(`✅ Fonction disponible: ${functionName}`);
@@ -106,7 +109,7 @@ class ButtonFunctionLinker {
     // Lier tous les boutons de la page
     linkAllButtons() {
         // Lier par ID
-        Object.keys(BUTTON_FUNCTION_MAPPING).forEach(buttonId => {
+        Object.keys(window.BUTTON_FUNCTION_MAPPING || {}).forEach(buttonId => {
             this.linkButtonById(buttonId);
         });
         
@@ -126,7 +129,7 @@ class ButtonFunctionLinker {
     linkButtonById(buttonId) {
         const button = document.getElementById(buttonId);
         if (button && !this.linkedButtons.has(buttonId)) {
-            const functionName = BUTTON_FUNCTION_MAPPING[buttonId];
+            const functionName = window.BUTTON_FUNCTION_MAPPING[buttonId];
             if (this.availableFunctions.has(functionName)) {
                 this.attachFunctionToButton(button, functionName, buttonId);
             }

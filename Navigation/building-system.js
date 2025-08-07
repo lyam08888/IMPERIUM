@@ -17,6 +17,57 @@ class ImperiumBuildingSystem {
         console.log('🏗️ Système de construction initialisé');
     }
 
+    setupBuildingInterface() {
+        // Initialiser l'interface de construction
+        const buildingPanel = document.getElementById('building-panel');
+        if (buildingPanel) {
+            buildingPanel.innerHTML = `
+                <div class="building-controls">
+                    <h3>🏗️ Construction</h3>
+                    <div class="building-stats">
+                        <span>Emplacements: ${this.getUsedSlots()}/${this.availableSlots}</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Configurer les événements de construction
+        this.setupBuildingEvents();
+    }
+
+    setupBuildingEvents() {
+        // Événements pour les boutons de construction rapide
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('quick-build-btn')) {
+                const buildingType = e.target.dataset.buildingType;
+                this.quickBuild(buildingType);
+            }
+        });
+    }
+
+    getUsedSlots() {
+        return Object.keys(gameState.buildings || {}).length;
+    }
+
+    quickBuild(buildingType) {
+        // Trouver un emplacement libre
+        const freeSlot = this.findFreeSlot();
+        if (freeSlot !== -1) {
+            this.startConstruction(buildingType, freeSlot);
+        } else {
+            showNotification('Aucun emplacement libre disponible !', 'warning');
+        }
+    }
+
+    findFreeSlot() {
+        for (let i = 0; i < this.availableSlots; i++) {
+            if (!this.getBuildingAtSlot(i)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     setupBuildingGrid() {
         const buildingsGrid = document.getElementById('buildings-grid');
         if (!buildingsGrid) return;

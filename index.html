@@ -1162,8 +1162,9 @@
             updateInterval: 5000, // Mise à jour des ressources toutes les 5 secondes
         };
 
-        // État du jeu complet
-        let gameState = {
+        // État du jeu complet - vérifier si déjà défini par game-engine.js
+        if (typeof gameState === 'undefined') {
+            window.gameState = {
             resources: { wood: 2450, stone: 1820, wine: 650, iron: 340, gold: 8750, research: 180 },
             buildings: {
                 forum: { level: 5, x: 2, y: 1 },
@@ -1188,7 +1189,8 @@
                 rank: 145
             },
             lastUpdate: Date.now(),
-        };
+            };
+        }
 
         // Configuration des bâtiments
         const BUILDINGS_CONFIG = {
@@ -2092,8 +2094,6 @@
             });
         }
     </script>
-
-    <script src="link-buttons-to-functions.js"></script>
 </body>
 </html>
 

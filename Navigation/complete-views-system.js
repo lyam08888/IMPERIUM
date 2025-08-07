@@ -75,6 +75,10 @@ class ImperiumCompleteViews {
     // === VUE MONDE ===
     setupWorldView() {
         const worldView = document.getElementById('view-world');
+        if (!worldView) {
+            console.warn('Element view-world not found');
+            return;
+        }
         worldView.innerHTML = `
             <h2 class="view-title">🌍 Carte du Monde Romain</h2>
             <div class="world-layout">

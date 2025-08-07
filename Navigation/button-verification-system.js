@@ -59,11 +59,15 @@ class ImperiumButtonVerification {
         this.buttonMappings.set('build-academy', () => this.buildBuilding('academy'));
         this.buttonMappings.set('build-market', () => this.buildBuilding('market'));
         
-        // Boutons d'amélioration
-        Object.keys(BUILDINGS_CONFIG || {}).forEach(buildingType => {
-            this.buttonMappings.set(`upgrade-${buildingType}`, () => buildingSystem.upgradeBuilding(buildingType));
-            this.buttonMappings.set(`info-${buildingType}`, () => buildingSystem.showBuildingInfo(buildingType));
-        });
+        // Boutons d'amélioration - vérifier que BUILDINGS_CONFIG existe
+        if (typeof BUILDINGS_CONFIG !== 'undefined' && BUILDINGS_CONFIG) {
+            Object.keys(BUILDINGS_CONFIG).forEach(buildingType => {
+                this.buttonMappings.set(`upgrade-${buildingType}`, () => buildingSystem.upgradeBuilding(buildingType));
+                this.buttonMappings.set(`info-${buildingType}`, () => buildingSystem.showBuildingInfo(buildingType));
+            });
+        } else {
+            console.warn('BUILDINGS_CONFIG not defined, skipping building mappings');
+        }
     }
 
     setupViewMappings() {
