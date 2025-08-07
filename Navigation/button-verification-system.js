@@ -314,8 +314,19 @@ class ImperiumButtonVerification {
 
     // Fonctions par défaut pour les actions communes
     startGame() {
-        // Cette fonction est déjà gérée dans index.html
-        console.log('🎮 Démarrage du jeu...');
+        console.log('🎮 Démarrage du jeu avec cinématique et tutoriel...');
+        
+        // Démarrer la cinématique d'introduction
+        if (window.cinematicSystem) {
+            window.cinematicSystem.startIntroductionCinematic();
+        } else {
+            // Fallback : démarrer directement le tutoriel
+            if (window.interactiveTutorial && !window.interactiveTutorial.isCompleted()) {
+                window.interactiveTutorial.start();
+            }
+            // Naviguer vers Ma Cité
+            window.location.href = 'Navigation/Empire/Ma Cité/Ma Cité Romaine.html';
+        }
     }
 
     confirmAction() {

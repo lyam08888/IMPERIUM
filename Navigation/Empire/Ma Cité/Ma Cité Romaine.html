@@ -23,6 +23,12 @@
     <script src="../../save-system.js"></script>
     <script src="../../ui-manager.js"></script>
     <script src="../../global-console.js"></script>
+    
+    <!-- Systèmes de tutoriel et storyline -->
+    <script src="../../../cinematic-storyline-system.js"></script>
+    <script src="../../../interactive-tutorial-system.js"></script>
+    <script src="../../../tutorial-navigation-system.js"></script>
+    <script src="../../../contextual-storyline-system.js"></script>
 
     <style>
         /* Styles spécifiques à Ma Cité Romaine */
@@ -389,14 +395,66 @@
             createParticles();
             initializePage();
             
-            // Ajouter un log de bienvenue
+            // Vérifier si le tutoriel doit être démarré
             setTimeout(() => {
+                checkAndStartTutorial();
+                
+                // Ajouter un log de bienvenue
                 if (window.addImperiumLog) {
                     window.addImperiumLog('Bienvenue dans votre Cité Romaine !', 'success');
                     window.addImperiumLog('Vos citoyens travaillent dur pour l\'empire', 'info');
                 }
             }, 1000);
         });
+
+        function checkAndStartTutorial() {
+            // Vérifier si c'est la première visite ou si le tutoriel n'a pas été complété
+            const urlParams = new URLSearchParams(window.location.search);
+            const fromStart = urlParams.get('fromStart') === 'true';
+            const tutorialCompleted = localStorage.getItem('imperium_tutorial_completed') === 'true';
+            
+            if (fromStart || !tutorialCompleted) {
+                // Démarrer le tutoriel interactif après un court délai
+                setTimeout(() => {
+                    if (window.interactiveTutorial) {
+                        console.log('🎓 Démarrage du tutoriel interactif...');
+                        window.interactiveTutorial.start();
+                    }
+                }, 2000);
+            } else {
+                // Afficher un message de bienvenue pour les utilisateurs qui reviennent
+                if (window.dialogueSystem) {
+                    setTimeout(() => {
+                        window.dialogueSystem.showDialogue({
+                            title: 'Bon retour, Gouverneur !',
+                            content: `
+                                <div class="welcome-back">
+                                    <h3>🏛️ Votre Cité vous attend</h3>
+                                    <p>Vos citoyens ont continué à travailler en votre absence. 
+                                    Consultez vos statistiques et continuez à développer votre empire !</p>
+                                    <p><strong>Astuce :</strong> Vous pouvez relancer le tutoriel à tout moment 
+                                    depuis les paramètres si vous avez besoin d'un rappel.</p>
+                                </div>
+                            `,
+                            buttons: [
+                                {
+                                    text: 'Relancer le tutoriel',
+                                    action: () => {
+                                        if (window.interactiveTutorial) {
+                                            window.interactiveTutorial.restart();
+                                        }
+                                    }
+                                },
+                                {
+                                    text: 'Continuer à gouverner',
+                                    action: () => {} // Ferme juste le dialogue
+                                }
+                            ]
+                        });
+                    }, 1500);
+                }
+            }
+        }
 
         function initializePage() {
             console.log('Ma Cité Romaine initialisée');
