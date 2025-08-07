@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Debug IMPERIUM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #444;
+            border-radius: 5px;
+        }
+        .success { color: #4CAF50; }
+        .error { color: #f44336; }
+        .warning { color: #ff9800; }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Test de Debug IMPERIUM</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Vérification des Provinces</h2>
+        <button onclick="testProvinces()">Tester les Provinces</button>
+        <div id="provinces-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Vérification de BUILDINGS_CONFIG</h2>
+        <button onclick="testBuildingsConfig()">Tester BUILDINGS_CONFIG</button>
+        <div id="buildings-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Vérification des Éléments DOM</h2>
+        <button onclick="testDOMElements()">Tester les Éléments DOM</button>
+        <div id="dom-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 4: Simulation de Sauvegarde/Chargement</h2>
+        <button onclick="testSaveLoad()">Tester Sauvegarde/Chargement</button>
+        <div id="saveload-result"></div>
+    </div>
+
+    <!-- Éléments DOM nécessaires pour les tests -->
+    <div id="view-world" style="display: none;">Test World View</div>
+    
+    <script>
+        // Simuler gameState pour les tests
+        let gameState = {
+            resources: { wood: 100, stone: 50, wine: 25, iron: 30, gold: 200, research: 10 },
+            buildings: { forum: { level: 1, x: 2, y: 2 } },
+            technologies: ['aqueducs'],
+            units: { velites: 10 },
+            navy: { triremes: 2 },
+            provinces: [{ name: 'Roma Nova', type: 'capital', population: 120, happiness: 75, islandBonus: {} }],
+            currentView: 'city',
+            player: { name: 'Marcus Aurelius', level: 1, xp: 0, alliance: { bonus: 0 } },
+            lastUpdate: Date.now()
+        };
+
+        // Simuler BUILDINGS_CONFIG
+        const BUILDINGS_CONFIG = {
+            forum: { name: 'Forum', icon: '🏛️', description: 'Augmente la population maximale.' },
+            warehouse: { name: 'Entrepôt', icon: '📦', description: 'Augmente le stockage des ressources.' }
+        };
+
+        // Fonction d'initialisation des provinces (copiée du fix)
+        function initializeProvinces() {
+            if (!gameState.provinces) {
+                gameState.provinces = [];
+            }
+            if (!gameState.provinces[0]) {
+                gameState.provinces[0] = {
+                    name: 'Roma Nova',
+                    type: 'capital',
+                    population: 120,
+                    happiness: 75,
+                    populationMax: 50,
+                    islandBonus: {}
+                };
+                console.log('✅ Province capitale initialisée');
+            }
+        }
+
+        function testProvinces() {
+            const result = document.getElementById('provinces-result');
+            let html = '<h3>Résultats du test des provinces:</h3>';
+            
+            try {
+                // Test 1: Vérifier l'existence des provinces
+                if (gameState.provinces && gameState.provinces[0]) {
+                    html += '<p class="success">✅ gameState.provinces[0] existe</p>';
+                } else {
+                    html += '<p class="error">❌ gameState.provinces[0] n\'existe pas</p>';
+                    initializeProvinces();
+                    html += '<p class="warning">⚠️ Provinces initialisées automatiquement</p>';
+                }
+                
+                // Test 2: Vérifier les propriétés essentielles
+                const province = gameState.provinces[0];
+                const requiredProps = ['name', 'population', 'happiness'];
+                requiredProps.forEach(prop => {
+                    if (province[prop] !== undefined) {
+                        html += `<p class="success">✅ ${prop}: ${province[prop]}</p>`;
+                    } else {
+                        html += `<p class="error">❌ ${prop} manquant</p>`;
+                    }
+                });
+                
+                // Test 3: Simuler l'accès comme dans la boucle de jeu
+                try {
+                    const happiness = gameState.provinces[0].happiness;
+                    const population = gameState.provinces[0].population;
+                    html += `<p class="success">✅ Accès sécurisé: bonheur=${happiness}, population=${population}</p>`;
+                } catch (e) {
+                    html += `<p class="error">❌ Erreur d'accès: ${e.message}</p>`;
+                }
+                
+            } catch (e) {
+                html += `<p class="error">❌ Erreur générale: ${e.message}</p>`;
+            }
+            
+            result.innerHTML = html;
+        }
+
+        function testBuildingsConfig() {
+            const result = document.getElementById('buildings-result');
+            let html = '<h3>Résultats du test de BUILDINGS_CONFIG:</h3>';
+            
+            try {
+                if (typeof BUILDINGS_CONFIG !== 'undefined') {
+                    html += '<p class="success">✅ BUILDINGS_CONFIG est défini</p>';
+                    
+                    const buildingCount = Object.keys(BUILDINGS_CONFIG).length;
+                    html += `<p class="success">✅ Nombre de bâtiments: ${buildingCount}</p>`;
+                    
+                    // Lister quelques bâtiments
+                    Object.keys(BUILDINGS_CONFIG).slice(0, 3).forEach(building => {
+                        const config = BUILDINGS_CONFIG[building];
+                        html += `<p class="success">✅ ${building}: ${config.name} ${config.icon}</p>`;
+                    });
+                } else {
+                    html += '<p class="error">❌ BUILDINGS_CONFIG n\'est pas défini</p>';
+                }
+            } catch (e) {
+                html += `<p class="error">❌ Erreur: ${e.message}</p>`;
+            }
+            
+            result.innerHTML = html;
+        }
+
+        function testDOMElements() {
+            const result = document.getElementById('dom-result');
+            let html = '<h3>Résultats du test des éléments DOM:</h3>';
+            
+            const elementsToTest = ['view-world', 'view-city', 'view-trade'];
+            
+            elementsToTest.forEach(elementId => {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    html += `<p class="success">✅ ${elementId} trouvé</p>`;
+                } else {
+                    html += `<p class="error">❌ ${elementId} non trouvé</p>`;
+                }
+            });
+            
+            result.innerHTML = html;
+        }
+
+        function testSaveLoad() {
+            const result = document.getElementById('saveload-result');
+            let html = '<h3>Résultats du test de sauvegarde/chargement:</h3>';
+            
+            try {
+                // Test de sauvegarde
+                const originalState = JSON.parse(JSON.stringify(gameState));
+                localStorage.setItem('imperiumGameStateTest', JSON.stringify(gameState));
+                html += '<p class="success">✅ Sauvegarde réussie</p>';
+                
+                // Modifier l'état
+                gameState.provinces = null;
+                html += '<p class="warning">⚠️ Provinces supprimées pour simuler le problème</p>';
+                
+                // Test de chargement
+                const savedState = localStorage.getItem('imperiumGameStateTest');
+                if (savedState) {
+                    gameState = JSON.parse(savedState);
+                    
+                    // Appliquer le fix
+                    initializeProvinces();
+                    
+                    if (gameState.provinces && gameState.provinces[0]) {
+                        html += '<p class="success">✅ Chargement et correction réussis</p>';
+                    } else {
+                        html += '<p class="error">❌ Échec de la correction</p>';
+                    }
+                } else {
+                    html += '<p class="error">❌ Échec du chargement</p>';
+                }
+                
+                // Nettoyer
+                localStorage.removeItem('imperiumGameStateTest');
+                
+            } catch (e) {
+                html += `<p class="error">❌ Erreur: ${e.message}</p>`;
+            }
+            
+            result.innerHTML = html;
+        }
+
+        // Auto-test au chargement
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🔧 Page de test chargée');
+        });
+    </script>
+</body>
+</html>

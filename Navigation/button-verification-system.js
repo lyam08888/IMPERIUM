@@ -432,21 +432,39 @@ const buttonVerificationStyles = `
     }
 `;
 
-// Injecter les styles
-const buttonVerificationStyleSheet = document.createElement('style');
-buttonVerificationStyleSheet.textContent = buttonVerificationStyles;
-document.head.appendChild(buttonVerificationStyleSheet);
+// Fonction d'initialisation qui attend que le DOM et BUILDINGS_CONFIG soient prêts
+function initializeButtonVerification() {
+    // Vérifier si BUILDINGS_CONFIG est disponible
+    if (typeof BUILDINGS_CONFIG === 'undefined') {
+        // Réessayer dans 100ms
+        setTimeout(initializeButtonVerification, 100);
+        return;
+    }
 
-// Créer l'instance globale
-const buttonVerification = new ImperiumButtonVerification();
+    // Injecter les styles
+    const buttonVerificationStyleSheet = document.createElement('style');
+    buttonVerificationStyleSheet.textContent = buttonVerificationStyles;
+    document.head.appendChild(buttonVerificationStyleSheet);
 
-// Export global
-window.buttonVerification = buttonVerification;
-window.ImperiumButtonVerification = ImperiumButtonVerification;
+    // Créer l'instance globale
+    const buttonVerification = new ImperiumButtonVerification();
 
-// Commande de console pour vérifier les boutons
-window.checkButtons = () => buttonVerification.recheckAllButtons();
-window.buttonReport = () => buttonVerification.getButtonReport();
+    // Export global
+    window.buttonVerification = buttonVerification;
+    window.ImperiumButtonVerification = ImperiumButtonVerification;
+
+    // Commande de console pour vérifier les boutons
+    window.checkButtons = () => buttonVerification.recheckAllButtons();
+    window.buttonReport = () => buttonVerification.getButtonReport();
+}
+
+// Attendre que le DOM soit prêt
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeButtonVerification);
+} else {
+    // Le DOM est déjà prêt
+    initializeButtonVerification();
+}
 
 console.log('🔍 Système de vérification des boutons chargé');
 console.log('💡 Utilisez checkButtons() ou buttonReport() dans la console pour diagnostiquer');

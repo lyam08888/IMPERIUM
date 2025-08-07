@@ -14,7 +14,8 @@ if (typeof gameState === 'undefined') {
             xp: 0,
             title: 'Citoyen',
             tutorialCompleted: false,
-            currentTutorialStep: 0
+            currentTutorialStep: 0,
+            alliance: { bonus: 0 }
         },
         resources: {
             wood: 100,
@@ -28,8 +29,20 @@ if (typeof gameState === 'undefined') {
         technologies: [],
         units: {},
         messages: [],
+        provinces: [
+            {
+                name: 'Roma Nova',
+                type: 'capital',
+                population: 120,
+                happiness: 75,
+                populationMax: 50,
+                islandBonus: {}
+            }
+        ],
+        currentView: 'city',
         gameStarted: Date.now(),
         lastSave: null,
+        lastUpdate: Date.now(),
         progression: {
             unlockedFeatures: ['city'],
             completedTasks: [],

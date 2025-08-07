@@ -245,7 +245,9 @@ class ImperiumCompleteViews {
         }
 
         gameState.resources.gold -= 200;
-        gameState.provinces[0].happiness = Math.min(100, gameState.provinces[0].happiness + 10);
+        if (gameState.provinces && gameState.provinces[0]) {
+            gameState.provinces[0].happiness = Math.min(100, gameState.provinces[0].happiness + 10);
+        }
         updateResourcesDisplay();
         showNotification('Jeux organisés ! Le peuple est content (+10 bonheur)', 'success');
         progression.addXP(75);
@@ -1509,16 +1511,27 @@ const completeViewsStyles = `
     }
 `;
 
-// Injecter les styles
-const completeViewsStyleSheet = document.createElement('style');
-completeViewsStyleSheet.textContent = completeViewsStyles;
-document.head.appendChild(completeViewsStyleSheet);
+// Fonction d'initialisation qui attend que le DOM soit prêt
+function initializeCompleteViews() {
+    // Injecter les styles
+    const completeViewsStyleSheet = document.createElement('style');
+    completeViewsStyleSheet.textContent = completeViewsStyles;
+    document.head.appendChild(completeViewsStyleSheet);
 
-// Créer l'instance globale
-const completeViews = new ImperiumCompleteViews();
+    // Créer l'instance globale
+    const completeViews = new ImperiumCompleteViews();
 
-// Export global
-window.completeViews = completeViews;
-window.ImperiumCompleteViews = ImperiumCompleteViews;
+    // Export global
+    window.completeViews = completeViews;
+    window.ImperiumCompleteViews = ImperiumCompleteViews;
 
-console.log('🎮 Système complet de vues chargé');
+    console.log('🎮 Système complet de vues chargé');
+}
+
+// Attendre que le DOM soit prêt
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeCompleteViews);
+} else {
+    // Le DOM est déjà prêt
+    initializeCompleteViews();
+}

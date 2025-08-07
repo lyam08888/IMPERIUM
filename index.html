@@ -46,6 +46,7 @@
     <script src="Navigation/button-verification-system.js"></script>
     <script src="Navigation/data-interconnection-system.js"></script>
     <script src="link-buttons-to-functions.js"></script>
+    <script src="test-fixes.js"></script>
 
     <style>
         :root {
@@ -1303,6 +1304,9 @@
             updatePlayerInfo();
             updateAllUI();
             
+            // Vérifier et initialiser les provinces si nécessaire
+            initializeProvinces();
+            
             // Initialiser les adaptations mobiles
             initializeMobileIntegration();
             
@@ -1312,11 +1316,36 @@
             console.log('✅ Jeu initialisé avec succès');
         }
         
+        // Fonction pour initialiser les provinces si elles sont manquantes
+        function initializeProvinces() {
+            if (!gameState.provinces) {
+                gameState.provinces = [];
+            }
+            if (!gameState.provinces[0]) {
+                gameState.provinces[0] = {
+                    name: 'Roma Nova',
+                    type: 'capital',
+                    population: 120,
+                    happiness: 75,
+                    populationMax: 50,
+                    islandBonus: {}
+                };
+                console.log('✅ Province capitale initialisée');
+            }
+        }
+
         // Boucle de jeu principale
         function startGameLoops() {
             setInterval(() => {
                 const now = Date.now();
                 const delta = (now - gameState.lastUpdate) / 1000; // secondes écoulées
+                
+                // Vérifier que les provinces existent avant de les utiliser
+                if (!gameState.provinces || !gameState.provinces[0]) {
+                    console.warn('Provinces non initialisées, initialisation...');
+                    initializeProvinces();
+                    return;
+                }
                 
                 // 1. Mettre à jour le bonheur
                 gameState.provinces[0].happiness = calculateHappiness();
@@ -1366,7 +1395,7 @@
             
             // Malus de surpopulation
             const popMax = calculatePopulationMax();
-            const currentPop = gameState.provinces[0].population;
+            const currentPop = gameState.provinces && gameState.provinces[0] ? gameState.provinces[0].population : 0;
             const populationRatio = currentPop / popMax;
             if (populationRatio > 0.9) {
                 happiness -= (populationRatio - 0.9) * 100; // Malus de plus en plus fort
@@ -1378,10 +1407,10 @@
         function calculateHourlyProduction() {
             const production = { wood: 0, stone: 0, wine: 0, iron: 0, gold: 0, research: 0 };
             const allianceBonus = gameState.player.alliance.bonus || 0;
-            const islandBonus = gameState.provinces[0].islandBonus || {};
+            const islandBonus = gameState.provinces && gameState.provinces[0] ? gameState.provinces[0].islandBonus || {} : {};
             
             // Modificateur de productivité basé sur le bonheur
-            const happiness = gameState.provinces[0].happiness;
+            const happiness = gameState.provinces && gameState.provinces[0] ? gameState.provinces[0].happiness : 50;
             const productivityModifier = happiness < 50 ? 1 - ((50 - happiness) * 0.015) : 1; // Pénalité jusqu'à -75%
             
             for (const [buildingType, buildingData] of Object.entries(gameState.buildings)) {
@@ -1749,7 +1778,7 @@
 
         function updateCityPanel() {
             // Stats
-            const pop = Math.floor(gameState.provinces[0].population);
+            const pop = gameState.provinces && gameState.provinces[0] ? Math.floor(gameState.provinces[0].population) : 0;
             const popMax = calculatePopulationMax();
             const happiness = calculateHappiness();
             safeUpdateElement('city-stats-content', `
@@ -1828,6 +1857,18 @@
                 const savedState = localStorage.getItem('imperiumGameState');
                 if (savedState) {
                     gameState = JSON.parse(savedState);
+                    
+                    // Vérifier et corriger les données manquantes après le chargement
+                    initializeProvinces();
+                    
+                    // S'assurer que les structures essentielles existent
+                    if (!gameState.player) {
+                        gameState.player = { name: 'Marcus Aurelius', level: 1, xp: 0, alliance: { bonus: 0 } };
+                    }
+                    if (!gameState.player.alliance) {
+                        gameState.player.alliance = { bonus: 0 };
+                    }
+                    
                     showNotification('Partie chargée !', 'success');
                     logEvent('📂 Partie chargée avec succès.');
                     updateAllUI();

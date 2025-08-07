@@ -331,15 +331,17 @@ class ImperiumDataInterconnection {
         }
         
         // Malus de surpopulation
-        const popMax = gameState.provinces[0].populationMax || 50;
-        const currentPop = gameState.provinces[0].population || 0;
+        const popMax = gameState.provinces && gameState.provinces[0] ? gameState.provinces[0].populationMax || 50 : 50;
+        const currentPop = gameState.provinces && gameState.provinces[0] ? gameState.provinces[0].population || 0 : 0;
         const populationRatio = currentPop / popMax;
         
         if (populationRatio > 0.9) {
             happiness -= (populationRatio - 0.9) * 100;
         }
         
-        gameState.provinces[0].happiness = Math.max(0, Math.min(100, Math.round(happiness)));
+        if (gameState.provinces && gameState.provinces[0]) {
+            gameState.provinces[0].happiness = Math.max(0, Math.min(100, Math.round(happiness)));
+        }
     }
 
     recalculateMilitaryPower() {
