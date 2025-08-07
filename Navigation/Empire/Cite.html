@@ -15,6 +15,9 @@
     
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23b45309'/><text x='16' y='20' text-anchor='middle' fill='white' font-family='serif' font-size='20' font-weight='bold'>I</text></svg>" type="image/svg+xml">
     
+    <!-- Import Google Fonts for Roman-style typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- Scripts de navigation communs -->
     <script src="../common-navigation.js"></script>
     
@@ -28,7 +31,7 @@
 
     <style>
         /* =============================================================== */
-        /* STYLES COMMUNS DE L'APPLICATION (common-style.css)            */
+        /* ENHANCED CLASH OF CLANS STYLE CITY MANAGEMENT                 */
         /* =============================================================== */
         :root {
             --gold-primary: #d97706;
@@ -56,7 +59,7 @@
         }
 
         body {
-            font-family: 'Times New Roman', serif;
+            font-family: 'Cormorant Garamond', 'Times New Roman', serif;
             background: 
                 radial-gradient(circle at 20% 20%, rgba(217, 119, 6, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
@@ -66,6 +69,7 @@
             min-height: 100vh;
         }
 
+        /* Animated particles background */
         .particles {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -88,6 +92,7 @@
             100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
         }
 
+        /* Main UI Container */
         .imperium-ui {
             display: flex;
             flex-direction: column;
@@ -96,6 +101,7 @@
             z-index: 10;
         }
 
+        /* Enhanced Header */
         .imperium-header {
             background: linear-gradient(135deg, var(--dark-marble) 0%, var(--dark-stone) 100%);
             backdrop-filter: blur(10px);
@@ -114,6 +120,7 @@
         }
 
         .imperium-logo {
+            font-family: 'Cinzel', serif;
             font-size: 2.5rem;
             font-weight: bold;
             background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
@@ -131,13 +138,15 @@
             filter: drop-shadow(0 0 10px var(--shadow-gold));
         }
 
+        /* Enhanced Resource Display */
         .resources-display {
             display: flex;
-            gap: 1.5rem;
-            background: rgba(15, 23, 42, 0.7);
+            gap: 1rem;
+            background: rgba(15, 23, 42, 0.8);
             padding: 0.75rem 1.5rem;
             border-radius: 1rem;
-            border: 1px solid var(--border-gold);
+            border: 2px solid var(--border-gold);
+            backdrop-filter: blur(10px);
         }
 
         .resource-item {
@@ -147,50 +156,36 @@
             font-weight: bold;
             font-size: 1rem;
             position: relative;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0.5rem;
+            background: rgba(217, 119, 6, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .resource-item:hover {
+            background: rgba(217, 119, 6, 0.2);
+            transform: translateY(-2px);
         }
 
         .resource-icon {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             filter: drop-shadow(0 0 5px var(--shadow-gold));
         }
 
         .resource-value {
             color: var(--gold-light);
-            min-width: 50px;
+            min-width: 60px;
             text-align: right;
-        }
-
-        .player-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .player-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--roman-red), var(--roman-purple));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            border: 2px solid var(--gold-primary);
-        }
-
-        .player-details {
-            font-size: 0.9rem;
-        }
-
-        .player-name {
-            color: var(--gold-light);
             font-weight: bold;
         }
 
-        .player-level {
-            color: var(--text-muted);
+        .resource-production {
+            font-size: 0.7rem;
+            color: var(--success-green);
+            display: block;
         }
 
+        /* Enhanced City Layout */
         .imperium-body {
             display: flex;
             flex-grow: 1;
@@ -200,63 +195,6 @@
             gap: 1.5rem;
             padding: 1.5rem 2rem;
             overflow: hidden;
-        }
-
-        .imperium-sidebar {
-            width: 280px;
-            flex-shrink: 0;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%);
-            border-radius: 1rem;
-            border: 1px solid var(--border-gold);
-            padding: 1.5rem;
-            overflow-y: auto;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        }
-
-        .nav-section {
-            margin-bottom: 2rem;
-        }
-
-        .nav-title {
-            color: var(--gold-primary);
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid var(--border-gold);
-            padding-bottom: 0.5rem;
-        }
-
-        .nav-list {
-            list-style: none;
-        }
-
-        .nav-item a {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            color: var(--text-light);
-            text-decoration: none;
-            padding: 0.75rem 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: 0.5rem;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-            cursor: pointer;
-        }
-
-        .nav-item a:hover, .nav-item a.active {
-            background: linear-gradient(135deg, rgba(217, 119, 6, 0.2), rgba(245, 158, 11, 0.1));
-            border-color: var(--gold-primary);
-            transform: translateX(5px);
-            color: var(--gold-light);
-        }
-
-        .nav-icon {
-            font-size: 1.3rem;
-            width: 24px;
-            text-align: center;
         }
 
         .main-content {
@@ -270,13 +208,15 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%);
             border-radius: 1rem;
-            border: 1px solid var(--border-gold);
+            border: 2px solid var(--border-gold);
             overflow-y: auto;
             padding: 2rem;
             box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
         }
 
         .view-title {
+            font-family: 'Cinzel', serif;
             font-size: 2.2rem;
             font-weight: bold;
             color: var(--gold-primary);
@@ -285,14 +225,12 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
-        /* =============================================================== */
-        /* STYLES SPÉCIFIQUES À LA PAGE "MA CITÉ"                        */
-        /* =============================================================== */
-        
+        /* Enhanced City Map */
         .city-layout {
             display: grid;
             grid-template-columns: 1fr;
             gap: 2rem;
+            height: calc(100% - 100px);
         }
 
         @media (min-width: 1024px) {
@@ -304,38 +242,56 @@
         .city-map-section {
             background: rgba(15, 23, 42, 0.8);
             border-radius: 1rem;
-            border: 1px solid var(--border-gold);
+            border: 2px solid var(--border-gold);
             padding: 1.5rem;
             position: relative;
             overflow: hidden;
-            animation: slideInLeft 0.8s ease-out;
+            backdrop-filter: blur(10px);
+        }
+
+        .city-map-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><pattern id="grid" patternUnits="userSpaceOnUse" width="10" height="10"><rect width="10" height="10" fill="none" stroke="%23d97706" stroke-width="0.2" opacity="0.3"/></pattern><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+            pointer-events: none;
         }
 
         .map-header {
             text-align: center;
             margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
         }
 
         .map-title {
             color: var(--gold-primary);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
             margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
+        /* Enhanced Buildings Grid */
         .buildings-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(6, 1fr);
+            gap: 0.5rem;
             min-height: 400px;
+            position: relative;
+            z-index: 1;
         }
 
-        @media (min-width: 768px) {
+        @media (max-width: 768px) {
             .buildings-grid {
-                grid-template-columns: repeat(5, 1fr);
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(8, 1fr);
             }
         }
 
+        /* Enhanced Building Slots */
         .building-slot {
             background: rgba(30, 41, 59, 0.6);
             border: 2px dashed var(--text-muted);
@@ -346,63 +302,246 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-height: 120px;
+            min-height: 100px;
             padding: 0.5rem;
+            position: relative;
+            overflow: hidden;
         }
 
         .building-slot:hover {
             border-color: var(--gold-light);
             background: rgba(217, 119, 6, 0.1);
-            transform: translateY(-5px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
 
         .building-slot.occupied {
             border: 2px solid var(--border-gold);
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.3), rgba(245, 158, 11, 0.2));
         }
-        
+
+        .building-slot.upgrading {
+            border-color: var(--success-green);
+            animation: upgrading 2s infinite;
+        }
+
+        .building-slot.upgrading::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes upgrading {
+            0%, 100% { box-shadow: 0 0 10px rgba(34, 197, 94, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.8); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
         .building-icon {
             font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+            transition: all 0.3s ease;
+        }
+
+        .building-slot:hover .building-icon {
+            transform: scale(1.1);
         }
 
         .building-name {
             color: var(--text-light);
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             text-align: center;
+            line-height: 1.2;
         }
 
         .building-level {
-            color: var(--gold-light);
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-top: 0.3rem;
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: var(--gold-primary);
+            color: white;
             padding: 0.2rem 0.5rem;
-            background: rgba(217, 119, 6, 0.2);
             border-radius: 1rem;
+            font-size: 0.7rem;
+            font-weight: bold;
         }
 
+        .upgrade-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.8);
+            padding: 4px 8px;
+            font-size: 0.6rem;
+            color: white;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 2px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success-green), var(--gold-light));
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        /* Tutorial System */
+        .tutorial-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        .tutorial-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, var(--dark-marble) 0%, var(--dark-stone) 100%);
+            border: 3px solid var(--gold-primary);
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .tutorial-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--gold-primary);
+            margin-bottom: 1rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .tutorial-content {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .tutorial-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .tutorial-btn {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+        }
+
+        .tutorial-btn:hover {
+            background: linear-gradient(135deg, var(--gold-secondary), var(--gold-light));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--shadow-gold);
+        }
+
+        .tutorial-btn.secondary {
+            background: rgba(100, 116, 139, 0.8);
+        }
+
+        .tutorial-btn.secondary:hover {
+            background: rgba(100, 116, 139, 1);
+        }
+
+        .tutorial-highlight {
+            border: 3px solid var(--gold-light) !important;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.8) !important;
+            animation: tutorialPulse 2s infinite;
+            z-index: 1001 !important;
+        }
+
+        @keyframes tutorialPulse {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
+                transform: scale(1.02);
+            }
+        }
+
+        /* Tutorial FAB */
+        .tutorial-fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .tutorial-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px var(--shadow-gold);
+        }
+
+        /* Enhanced Control Panel */
         .city-control-panel {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-            animation: slideInRight 0.8s ease-out;
         }
 
         .panel-section {
             background: rgba(15, 23, 42, 0.8);
-            border: 1px solid var(--border-gold);
+            border: 2px solid var(--border-gold);
             border-radius: 1rem;
             padding: 1.5rem;
+            backdrop-filter: blur(10px);
         }
 
-        .panel-section .section-title {
+        .section-title {
             color: var(--gold-primary);
             font-size: 1.3rem;
             font-weight: bold;
             margin-bottom: 1rem;
             text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
         .city-stats {
@@ -417,6 +556,12 @@
             padding: 1rem;
             text-align: center;
             border: 1px solid var(--border-gold);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            background: rgba(30, 41, 59, 0.8);
+            transform: translateY(-2px);
         }
 
         .stat-value {
@@ -431,49 +576,7 @@
             font-size: 0.9rem;
         }
 
-        .stat-icon {
-            font-size: 1.2rem;
-            margin-right: 0.5rem;
-        }
-
-        .production-display {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .production-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(30, 41, 59, 0.6);
-            border-radius: 0.8rem;
-            padding: 0.75rem;
-            border: 1px solid var(--border-gold);
-        }
-        
-        .production-resource {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-light);
-            font-weight: bold;
-        }
-
-        .production-rate {
-            color: var(--gold-light);
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        .production-rate.positive {
-            color: var(--success-green);
-        }
-
-        .production-rate.negative {
-            color: var(--roman-red);
-        }
-
+        /* Quick Actions */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -484,111 +587,83 @@
             background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
             color: white;
             border: none;
-            border-radius: 0.5rem;
-            padding: 0.8rem;
+            border-radius: 0.8rem;
+            padding: 1rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'Times New Roman', serif;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.9rem;
         }
         
         .quick-action-btn:hover {
+            background: linear-gradient(135deg, var(--gold-secondary), var(--gold-light));
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px var(--shadow-gold);
+            box-shadow: 0 8px 20px var(--shadow-gold);
         }
 
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* =============================================================== */
-        /* STYLES MOBILES SPÉCIFIQUES                                     */
-        /* =============================================================== */
-        
-        /* Menu contextuel mobile */
-        .mobile-context-menu {
-            background: linear-gradient(135deg, var(--dark-marble) 0%, var(--dark-stone) 100%);
-            border: 2px solid var(--gold-primary);
-            border-radius: var(--mobile-border-radius);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-            padding: 8px;
-            min-width: 200px;
-            backdrop-filter: blur(10px);
-            animation: contextMenuAppear 0.2s ease-out;
-        }
-        
-        .context-menu-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: var(--text-light);
-            font-size: 16px;
-            min-height: 48px; /* Taille tactile recommandée */
-        }
-        
-        .context-menu-item:hover {
-            background: rgba(217, 119, 6, 0.2);
-            color: var(--gold-light);
-            transform: translateX(5px);
-        }
-        
-        .context-icon {
-            font-size: 18px;
-            width: 24px;
-            text-align: center;
-        }
-        
-        @keyframes contextMenuAppear {
-            from {
-                opacity: 0;
-                transform: scale(0.8) translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-        
-        /* Adaptations mobiles pour les éléments existants */
+        /* Mobile Responsive */
         @media (max-width: 768px) {
+            .imperium-header {
+                padding: 0.75rem 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .imperium-logo {
+                font-size: 2rem;
+            }
+            
+            .resources-display {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            
+            .resource-item {
+                font-size: 0.8rem;
+                padding: 0.2rem 0.5rem;
+            }
+            
+            .buildings-grid {
+                gap: 0.3rem;
+            }
+            
             .building-slot {
-                min-height: 48px; /* Taille tactile recommandée */
-                touch-action: manipulation;
+                min-height: 80px;
             }
             
-            .building-slot.touch-active {
-                transform: scale(0.98);
-                opacity: 0.8;
-                background: rgba(217, 119, 6, 0.1);
+            .building-icon {
+                font-size: 2rem;
             }
             
-            .quick-action-btn {
-                min-height: 48px;
-                touch-action: manipulation;
-            }
-            
-            .mobile-context-menu {
-                max-width: calc(100vw - 40px);
-            }
-            
-            /* Améliorer la visibilité sur mobile */
             .building-name {
-                font-size: 14px;
-                font-weight: bold;
+                font-size: 0.7rem;
             }
             
-            .building-level {
-                font-size: 12px;
+            .view-container {
+                padding: 1rem;
+            }
+            
+            .view-title {
+                font-size: 1.8rem;
+                margin-bottom: 1rem;
+            }
+            
+            .tutorial-popup {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -614,10 +689,6 @@
         </header>
 
         <div class="imperium-body">
-            <aside class="imperium-sidebar">
-                <!-- La navigation sera générée par JS -->
-            </aside>
-
             <main class="main-content">
                 <div class="view-container">
                     <h2 class="view-title">🏛️ Ma Cité : Roma Aeterna</h2>
@@ -642,39 +713,28 @@
                                 <h3 class="section-title">Statistiques de la Cité</h3>
                                 <div class="city-stats">
                                     <div class="stat-item">
-                                        <div class="stat-value"><span class="stat-icon">👥</span><span id="statPopulation">1,250</span></div>
-                                        <div class="stat-label">Population</div>
+                                        <div class="stat-value"><span id="statPopulation">1,250</span></div>
+                                        <div class="stat-label">👥 Population</div>
                                     </div>
                                     <div class="stat-item">
-                                        <div class="stat-value"><span class="stat-icon">😊</span><span id="statHappiness">85%</span></div>
-                                        <div class="stat-label">Bonheur</div>
+                                        <div class="stat-value"><span id="statHappiness">85%</span></div>
+                                        <div class="stat-label">😊 Bonheur</div>
                                     </div>
                                     <div class="stat-item">
-                                        <div class="stat-value"><span class="stat-icon">🏗️</span><span id="statBuildings">12</span></div>
-                                        <div class="stat-label">Bâtiments</div>
+                                        <div class="stat-value"><span id="statBuildings">12</span></div>
+                                        <div class="stat-label">🏗️ Bâtiments</div>
                                     </div>
                                     <div class="stat-item">
-                                        <div class="stat-value"><span class="stat-icon">⚔️</span><span id="statArmy">450</span></div>
-                                        <div class="stat-label">Soldats</div>
+                                        <div class="stat-value"><span id="statArmy">450</span></div>
+                                        <div class="stat-label">⚔️ Soldats</div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="panel-section">
                                 <h3 class="section-title">Production (/h)</h3>
-                                <div class="production-display">
-                                    <div class="production-item">
-                                        <div class="production-resource"><span>💰</span> Or</div>
-                                        <div class="production-rate positive">+245</div>
-                                    </div>
-                                    <div class="production-item">
-                                        <div class="production-resource"><span>🌾</span> Nourriture</div>
-                                        <div class="production-rate positive">+180</div>
-                                    </div>
-                                    <div class="production-item">
-                                        <div class="production-resource"><span>🏛️</span> Marbre</div>
-                                        <div class="production-rate positive">+95</div>
-                                    </div>
+                                <div class="production-display" id="productionDisplay">
+                                    <!-- Généré par JS -->
                                 </div>
                             </div>
 
@@ -685,8 +745,6 @@
                                     <button class="quick-action-btn" onclick="organizeGames()">🎪 Organiser Festival</button>
                                     <button class="quick-action-btn" onclick="recruitSoldiers()">⚔️ Recruter Soldats</button>
                                     <button class="quick-action-btn" onclick="viewProduction()">⚡ Production</button>
-                                    <button class="quick-action-btn" onclick="manageCitizens()">👥 Gérer Citoyens</button>
-                                    <button class="quick-action-btn" onclick="manageBuildings()">🏗️ Gérer Bâtiments</button>
                                 </div>
                             </div>
                         </div>
@@ -696,230 +754,625 @@
         </div>
     </div>
 
+    <!-- Tutorial System -->
+    <div id="tutorialOverlay" class="tutorial-overlay" style="display: none;"></div>
+    <div id="tutorialPopup" class="tutorial-popup" style="display: none;">
+        <h3 id="tutorialTitle" class="tutorial-title">Titre du tutoriel</h3>
+        <div id="tutorialContent" class="tutorial-content">Contenu du tutoriel</div>
+        <div class="tutorial-actions">
+            <button id="tutorialNext" class="tutorial-btn">Suivant</button>
+            <button id="tutorialSkip" class="tutorial-btn secondary">Passer</button>
+        </div>
+    </div>
+
+    <button id="tutorialFab" class="tutorial-fab" onclick="startTutorial()" title="Commencer le tutoriel">
+        ❓
+    </button>
+
     <script>
         // ===============================================================
-        // SCRIPTS GLOBAUX (navigation, UI, etc.)
+        // ENHANCED CLASH OF CLANS STYLE GAME LOGIC
         // ===============================================================
-        // Les fonctions de navigation sont maintenant fournies par common-navigation.js
+        
+        // Game State
+        let gameState = {
+            resources: {
+                gold: 5000,
+                wood: 2500,
+                stone: 1800,
+                population: 150,
+                happiness: 85
+            },
+            buildings: [
+                { id: 1, type: 'townhall', name: 'Hôtel de Ville', icon: '🏛️', level: 1, maxLevel: 10, x: 2, y: 2, upgrading: false, cost: { gold: 1000, wood: 500, stone: 300 } },
+                { id: 2, type: 'house', name: 'Maison', icon: '🏠', level: 1, maxLevel: 5, x: 1, y: 1, upgrading: false, cost: { gold: 200, wood: 100, stone: 50 } },
+                { id: 3, type: 'barracks', name: 'Caserne', icon: '⚔️', level: 1, maxLevel: 8, x: 4, y: 1, upgrading: false, cost: { gold: 800, wood: 400, stone: 200 } },
+                { id: 4, type: 'goldmine', name: 'Mine d\'Or', icon: '💰', level: 2, maxLevel: 12, x: 0, y: 3, upgrading: false, cost: { gold: 500, wood: 200, stone: 400 }, production: { type: 'gold', amount: 100 } },
+                { id: 5, type: 'sawmill', name: 'Scierie', icon: '🌲', level: 1, maxLevel: 10, x: 5, y: 4, upgrading: false, cost: { gold: 300, wood: 150, stone: 100 }, production: { type: 'wood', amount: 80 } },
+                { id: 6, type: 'quarry', name: 'Carrière', icon: '🪨', level: 1, maxLevel: 10, x: 1, y: 5, upgrading: false, cost: { gold: 400, wood: 100, stone: 200 }, production: { type: 'stone', amount: 60 } }
+            ],
+            tutorial: {
+                active: false,
+                step: 0,
+                completed: localStorage.getItem('imperiumTutorialCompleted') === 'true'
+            }
+        };
 
-        function initializeGlobalUI() {
-            // La navigation est maintenant gérée par common-navigation.js via initializeNavigation()
-            // On met juste à jour les informations spécifiques à cette page
+        // Tutorial System
+        const tutorialSteps = [
+            {
+                title: "🏛️ Bienvenue dans votre cité !",
+                content: "Cliquez sur l'Hôtel de Ville pour commencer votre aventure. C'est le cœur de votre empire !",
+                target: "townhall",
+                tip: "💡 L'Hôtel de Ville détermine le niveau maximum de vos autres bâtiments."
+            },
+            {
+                title: "🏗️ Construire des bâtiments",
+                content: "Cliquez sur un emplacement vide pour construire votre premier bâtiment. Commencez par une maison !",
+                target: "empty",
+                tip: "🏠 Les maisons augmentent votre population et génèrent des impôts."
+            },
+            {
+                title: "💰 Gestion des ressources",
+                content: "Cliquez sur votre mine d'or pour voir sa production. Les mines génèrent des ressources en continu !",
+                target: "goldmine",
+                tip: "⚡ Plus le niveau est élevé, plus la production est importante."
+            },
+            {
+                title: "⬆️ Améliorer les bâtiments",
+                content: "Améliorez votre mine d'or pour augmenter sa production ! Cliquez sur le bouton d'amélioration.",
+                target: "upgrade",
+                tip: "📈 Les améliorations coûtent plus cher mais rapportent beaucoup plus."
+            },
+            {
+                title: "🎉 Félicitations !",
+                content: "Vous maîtrisez maintenant les bases ! Continuez à développer votre cité pour devenir le plus grand empereur romain !",
+                target: "complete",
+                tip: "👑 Explorez toutes les fonctionnalités pour bâtir un empire légendaire."
+            }
+        ];
+
+        // Initialize Game
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGame();
+            createParticles();
             
+            // Auto-start tutorial for new players
+            if (!gameState.tutorial.completed) {
+                setTimeout(() => {
+                    startTutorial();
+                }, 2000);
+            }
+        });
+
+        function initializeGame() {
+            updateResourcesDisplay();
+            updatePlayerInfo();
+            renderBuildingsGrid();
+            updateProductionDisplay();
+            startGameLoop();
+            
+            console.log('🏛️ IMPERIUM - Enhanced City Management Initialized');
+        }
+
+        // Game Loop
+        function startGameLoop() {
+            setInterval(() => {
+                // Update resources from production
+                gameState.buildings.forEach(building => {
+                    if (building.production && !building.upgrading) {
+                        const productionRate = building.production.amount * building.level * 0.1; // 10% per second
+                        if (building.production.type === 'gold') {
+                            gameState.resources.gold += productionRate;
+                        } else if (building.production.type === 'wood') {
+                            gameState.resources.wood += productionRate;
+                        } else if (building.production.type === 'stone') {
+                            gameState.resources.stone += productionRate;
+                        }
+                    }
+                });
+
+                // Update building upgrades
+                gameState.buildings.forEach(building => {
+                    if (building.upgrading && building.upgradeTimeLeft) {
+                        building.upgradeTimeLeft--;
+                        if (building.upgradeTimeLeft <= 0) {
+                            building.upgrading = false;
+                            building.level++;
+                            delete building.upgradeTimeLeft;
+                            showNotification(`${building.name} amélioré au niveau ${building.level} !`, 'success');
+                        }
+                    }
+                });
+
+                updateResourcesDisplay();
+                updateProductionDisplay();
+                renderBuildingsGrid();
+            }, 1000);
+        }
+
+        // UI Updates
+        function updateResourcesDisplay() {
+            const container = document.getElementById('resources-display');
+            if (!container) return;
+
+            const resources = [
+                { key: 'gold', icon: '💰', production: calculateProduction('gold') },
+                { key: 'wood', icon: '🌲', production: calculateProduction('wood') },
+                { key: 'stone', icon: '🪨', production: calculateProduction('stone') },
+                { key: 'population', icon: '👥', production: 0 },
+                { key: 'happiness', icon: '😊', production: 0 }
+            ];
+
+            container.innerHTML = resources.map(res => `
+                <div class="resource-item">
+                    <span class="resource-icon">${res.icon}</span>
+                    <div>
+                        <span class="resource-value">${Math.floor(gameState.resources[res.key]).toLocaleString()}</span>
+                        ${res.production > 0 ? `<span class="resource-production">+${res.production.toFixed(1)}/h</span>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updatePlayerInfo() {
             const playerName = document.getElementById('player-name');
             const playerTitleLevel = document.getElementById('player-title-level');
             const playerAvatar = document.getElementById('player-avatar');
-            const resourcesDisplay = document.getElementById('resources-display');
 
             if (playerName) playerName.textContent = 'Marcus Aurelius';
             if (playerTitleLevel) playerTitleLevel.textContent = 'Consul - Niv. 12';
             if (playerAvatar) playerAvatar.textContent = 'M';
+        }
 
-            if (resourcesDisplay) {
-                resourcesDisplay.innerHTML = `
-                    <div class="resource-item"><span class="resource-icon">🍇</span><span class="resource-value">4,560</span></div>
-                    <div class="resource-item"><span class="resource-icon">🏛️</span><span class="resource-value">2,340</span></div>
-                    <div class="resource-item"><span class="resource-icon">⚔️</span><span class="resource-value">8,900</span></div>
-                    <div class="resource-item"><span class="resource-icon">💰</span><span class="resource-value">15,200</span></div>`;
+        function updateProductionDisplay() {
+            const container = document.getElementById('productionDisplay');
+            if (!container) return;
+
+            const productions = [
+                { type: 'gold', icon: '💰', name: 'Or', amount: calculateProduction('gold') },
+                { type: 'wood', icon: '🌲', name: 'Bois', amount: calculateProduction('wood') },
+                { type: 'stone', icon: '🪨', name: 'Pierre', amount: calculateProduction('stone') }
+            ];
+
+            container.innerHTML = productions.map(prod => `
+                <div class="production-item">
+                    <div class="production-resource">
+                        <span>${prod.icon}</span> ${prod.name}
+                    </div>
+                    <div class="production-rate positive">+${prod.amount.toFixed(1)}</div>
+                </div>
+            `).join('');
+        }
+
+        function calculateProduction(type) {
+            let total = 0;
+            gameState.buildings.forEach(building => {
+                if (building.production && building.production.type === type && !building.upgrading) {
+                    total += building.production.amount * building.level;
+                }
+            });
+            return total;
+        }
+
+        // Buildings Grid
+        function renderBuildingsGrid() {
+            const grid = document.getElementById('buildingsGrid');
+            if (!grid) return;
+
+            grid.innerHTML = '';
+
+            // Create 6x6 grid
+            for (let y = 0; y < 6; y++) {
+                for (let x = 0; x < 6; x++) {
+                    const building = gameState.buildings.find(b => b.x === x && b.y === y);
+                    const slot = createBuildingSlot(x, y, building);
+                    grid.appendChild(slot);
+                }
             }
         }
 
+        function createBuildingSlot(x, y, building) {
+            const slot = document.createElement('div');
+            slot.className = 'building-slot';
+            slot.dataset.x = x;
+            slot.dataset.y = y;
 
-        // ===============================================================
-        // SCRIPTS SPÉCIFIQUES À LA PAGE "MA CITÉ"
-        // ===============================================================
-        const BUILDINGS_DATA = [
-            { id: 1, type: 'forum', name: 'Forum Romain', icon: '🏛️', level: 3, occupied: true },
-            { id: 2, type: 'temple', name: 'Temple de Jupiter', icon: '⛪', level: 2, occupied: true },
-            { id: 3, type: 'market', name: 'Marché', icon: '🏪', level: 4, occupied: true },
-            { id: 4, type: 'barracks', name: 'Caserne', icon: '⚔️', level: 2, occupied: true },
-            { id: 5, type: 'aqueduct', name: 'Aqueduc', icon: '🌊', level: 1, occupied: true },
-            { id: 6, type: 'amphitheater', name: 'Amphithéâtre', icon: '🏟️', level: 3, occupied: true },
-            { id: 7, type: 'library', name: 'Bibliothèque', icon: '📚', level: 2, occupied: true },
-            { id: 8, type: 'workshop', name: 'Atelier', icon: '🔨', level: 1, occupied: true },
-            { id: 9, type: 'empty', name: 'Terrain Vide', icon: '🏗️', level: 0, occupied: false },
-            { id: 10, type: 'empty', name: 'Terrain Vide', icon: '🏗️', level: 0, occupied: false },
-            { id: 11, type: 'empty', name: 'Terrain Vide', icon: '🏗️', level: 0, occupied: false },
-            { id: 12, type: 'empty', name: 'Terrain Vide', icon: '🏗️', level: 0, occupied: false },
-            { id: 13, type: 'walls', name: 'Murailles', icon: '🏰', level: 2, occupied: true },
-            { id: 14, type: 'granary', name: 'Grenier', icon: '🌾', level: 3, occupied: true },
-            { id: 15, type: 'empty', name: 'Terrain Vide', icon: '🏗️', level: 0, occupied: false },
-        ];
-
-        function initializeCityView() {
-            const grid = document.getElementById('buildingsGrid');
-            if (!grid) return;
-            grid.innerHTML = '';
-
-            BUILDINGS_DATA.forEach(building => {
-                const slot = document.createElement('div');
-                slot.className = `building-slot ${building.occupied ? 'occupied' : ''}`;
-                slot.onclick = () => handleBuildingClick(building);
+            if (building) {
+                slot.classList.add('occupied');
+                if (building.upgrading) {
+                    slot.classList.add('upgrading');
+                }
 
                 slot.innerHTML = `
                     <div class="building-icon">${building.icon}</div>
                     <div class="building-name">${building.name}</div>
-                    ${building.occupied ? `<div class="building-level">Niv. ${building.level}</div>` : ''}
+                    <div class="building-level">Niv. ${building.level}</div>
+                    ${building.upgrading && building.upgradeTimeLeft ? `
+                        <div class="upgrade-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${((30 + building.level * 10) - building.upgradeTimeLeft) / (30 + building.level * 10) * 100}%"></div>
+                            </div>
+                            <div>${formatTime(building.upgradeTimeLeft)}</div>
+                        </div>
+                    ` : ''}
                 `;
-                grid.appendChild(slot);
-            });
+
+                slot.onclick = () => handleBuildingClick(building);
+            } else {
+                slot.innerHTML = `
+                    <div class="building-icon" style="opacity: 0.5;">➕</div>
+                    <div class="building-name" style="color: var(--text-muted);">Construire</div>
+                `;
+                slot.onclick = () => handleEmptySlotClick(x, y);
+            }
+
+            // Tutorial highlighting
+            if (gameState.tutorial.active) {
+                const step = tutorialSteps[gameState.tutorial.step];
+                if ((step.target === 'townhall' && building?.type === 'townhall') ||
+                    (step.target === 'empty' && !building) ||
+                    (step.target === 'goldmine' && building?.type === 'goldmine')) {
+                    slot.classList.add('tutorial-highlight');
+                }
+            }
+
+            return slot;
         }
 
         function handleBuildingClick(building) {
-            if (building.occupied) {
-                alert(`Détails pour : ${building.name} (Niv. ${building.level})\nOptions : Améliorer, Gérer.`);
-            } else {
-                alert('Emplacement vide.\nOptions : Construire.');
+            if (gameState.tutorial.active) {
+                handleTutorialProgress(building);
+            }
+
+            showBuildingDialog(building);
+        }
+
+        function handleEmptySlotClick(x, y) {
+            if (gameState.tutorial.active && tutorialSteps[gameState.tutorial.step].target === 'empty') {
+                nextTutorialStep();
+            }
+
+            showConstructionDialog(x, y);
+        }
+
+        function showBuildingDialog(building) {
+            const canUpgrade = building.level < building.maxLevel && !building.upgrading;
+            const canAfford = canUpgrade && canAffordCost(building.cost);
+
+            const dialog = `
+                <div style="background: linear-gradient(135deg, var(--dark-marble), var(--dark-stone)); 
+                           border: 2px solid var(--gold-primary); border-radius: 1rem; padding: 2rem; 
+                           position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                           z-index: 2000; max-width: 500px; width: 90%;">
+                    <h3 style="color: var(--gold-primary); margin-bottom: 1rem; text-align: center;">
+                        ${building.icon} ${building.name} (Niveau ${building.level})
+                    </h3>
+                    
+                    ${building.production ? `
+                        <p style="color: var(--text-light); margin-bottom: 1rem;">
+                            Production: ${building.production.type === 'gold' ? '💰' : building.production.type === 'wood' ? '🌲' : '🪨'} 
+                            +${building.production.amount * building.level}/h
+                        </p>
+                    ` : ''}
+                    
+                    ${building.upgrading ? `
+                        <div style="margin-bottom: 1rem;">
+                            <p style="color: var(--success-green);">Amélioration en cours...</p>
+                            <p style="color: var(--text-muted);">Temps restant: ${formatTime(building.upgradeTimeLeft)}</p>
+                        </div>
+                    ` : canUpgrade ? `
+                        <div style="margin-bottom: 1rem;">
+                            <p style="color: var(--text-light); margin-bottom: 0.5rem;">
+                                Améliorer au niveau ${building.level + 1}:
+                            </p>
+                            <p style="color: ${canAfford ? 'var(--success-green)' : 'var(--roman-red)'};">
+                                💰 ${building.cost.gold} 🌲 ${building.cost.wood} 🪨 ${building.cost.stone}
+                            </p>
+                        </div>
+                    ` : ''}
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: center;">
+                        <button onclick="closeBuildingDialog()" 
+                                style="background: rgba(100,116,139,0.8); color: white; border: none; 
+                                       padding: 0.75rem 1.5rem; border-radius: 0.5rem; cursor: pointer;">
+                            Fermer
+                        </button>
+                        ${canUpgrade && !building.upgrading ? `
+                            <button onclick="upgradeBuilding(${building.id})" 
+                                    ${!canAfford ? 'disabled' : ''}
+                                    style="background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary)); 
+                                           color: white; border: none; padding: 0.75rem 1.5rem; 
+                                           border-radius: 0.5rem; cursor: ${canAfford ? 'pointer' : 'not-allowed'}; 
+                                           opacity: ${canAfford ? '1' : '0.5'};">
+                                Améliorer
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+                <div onclick="closeBuildingDialog()" 
+                     style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+                            background: rgba(0,0,0,0.7); z-index: 1999;"></div>
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', dialog);
+        }
+
+        function closeBuildingDialog() {
+            const dialogs = document.querySelectorAll('[style*="z-index: 2000"], [style*="z-index: 1999"]');
+            dialogs.forEach(dialog => dialog.remove());
+        }
+
+        function upgradeBuilding(buildingId) {
+            const building = gameState.buildings.find(b => b.id === buildingId);
+            if (!building || !canAffordCost(building.cost)) return;
+
+            // Deduct resources
+            gameState.resources.gold -= building.cost.gold;
+            gameState.resources.wood -= building.cost.wood;
+            gameState.resources.stone -= building.cost.stone;
+
+            // Start upgrade
+            building.upgrading = true;
+            building.upgradeTimeLeft = 30 + (building.level * 10); // Upgrade time increases with level
+
+            closeBuildingDialog();
+            showNotification(`Amélioration de ${building.name} commencée !`, 'info');
+
+            // Tutorial progress
+            if (gameState.tutorial.active && tutorialSteps[gameState.tutorial.step].target === 'upgrade') {
+                nextTutorialStep();
             }
         }
 
+        function showConstructionDialog(x, y) {
+            const buildingTypes = [
+                { type: 'house', name: 'Maison', icon: '🏠', cost: { gold: 200, wood: 100, stone: 50 } },
+                { type: 'goldmine', name: 'Mine d\'Or', icon: '💰', cost: { gold: 500, wood: 200, stone: 400 } },
+                { type: 'sawmill', name: 'Scierie', icon: '🌲', cost: { gold: 300, wood: 150, stone: 100 } },
+                { type: 'quarry', name: 'Carrière', icon: '🪨', cost: { gold: 400, wood: 100, stone: 200 } },
+                { type: 'barracks', name: 'Caserne', icon: '⚔️', cost: { gold: 800, wood: 400, stone: 200 } }
+            ];
+
+            const options = buildingTypes.map(building => {
+                const canAfford = canAffordCost(building.cost);
+                return `
+                    <div onclick="${canAfford ? `constructBuilding(${x}, ${y}, '${building.type}')` : ''}" 
+                         style="display: flex; align-items: center; gap: 1rem; padding: 1rem; 
+                                border: 1px solid var(--border-gold); border-radius: 0.5rem; 
+                                margin-bottom: 0.5rem; cursor: ${canAfford ? 'pointer' : 'not-allowed'}; 
+                                opacity: ${canAfford ? '1' : '0.5'}; 
+                                background: ${canAfford ? 'rgba(30,41,59,0.6)' : 'rgba(100,116,139,0.3)'};">
+                        <span style="font-size: 2rem;">${building.icon}</span>
+                        <div style="flex-grow: 1;">
+                            <div style="color: var(--gold-light); font-weight: bold;">${building.name}</div>
+                            <div style="color: var(--text-muted); font-size: 0.8rem;">
+                                💰 ${building.cost.gold} 🌲 ${building.cost.wood} 🪨 ${building.cost.stone}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const dialog = `
+                <div style="background: linear-gradient(135deg, var(--dark-marble), var(--dark-stone)); 
+                           border: 2px solid var(--gold-primary); border-radius: 1rem; padding: 2rem; 
+                           position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                           z-index: 2000; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                    <h3 style="color: var(--gold-primary); margin-bottom: 1.5rem; text-align: center;">
+                        🏗️ Choisir un bâtiment à construire
+                    </h3>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        ${options}
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <button onclick="closeConstructionDialog()" 
+                                style="background: rgba(100,116,139,0.8); color: white; border: none; 
+                                       padding: 0.75rem 1.5rem; border-radius: 0.5rem; cursor: pointer;">
+                            Annuler
+                        </button>
+                    </div>
+                </div>
+                <div onclick="closeConstructionDialog()" 
+                     style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+                            background: rgba(0,0,0,0.7); z-index: 1999;"></div>
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', dialog);
+        }
+
+        function closeConstructionDialog() {
+            const dialogs = document.querySelectorAll('[style*="z-index: 2000"], [style*="z-index: 1999"]');
+            dialogs.forEach(dialog => dialog.remove());
+        }
+
+        function constructBuilding(x, y, type) {
+            const buildingConfigs = {
+                house: { name: 'Maison', icon: '🏠', maxLevel: 5, cost: { gold: 200, wood: 100, stone: 50 } },
+                goldmine: { name: 'Mine d\'Or', icon: '💰', maxLevel: 12, cost: { gold: 500, wood: 200, stone: 400 }, production: { type: 'gold', amount: 100 } },
+                sawmill: { name: 'Scierie', icon: '🌲', maxLevel: 10, cost: { gold: 300, wood: 150, stone: 100 }, production: { type: 'wood', amount: 80 } },
+                quarry: { name: 'Carrière', icon: '🪨', maxLevel: 10, cost: { gold: 400, wood: 100, stone: 200 }, production: { type: 'stone', amount: 60 } },
+                barracks: { name: 'Caserne', icon: '⚔️', maxLevel: 8, cost: { gold: 800, wood: 400, stone: 200 } }
+            };
+
+            const config = buildingConfigs[type];
+            if (!config || !canAffordCost(config.cost)) return;
+
+            // Deduct resources
+            gameState.resources.gold -= config.cost.gold;
+            gameState.resources.wood -= config.cost.wood;
+            gameState.resources.stone -= config.cost.stone;
+
+            // Create building
+            const newBuilding = {
+                id: Date.now(),
+                type: type,
+                name: config.name,
+                icon: config.icon,
+                level: 1,
+                maxLevel: config.maxLevel,
+                x: x,
+                y: y,
+                upgrading: false,
+                cost: config.cost
+            };
+
+            if (config.production) {
+                newBuilding.production = config.production;
+            }
+
+            gameState.buildings.push(newBuilding);
+            closeConstructionDialog();
+            showNotification(`${config.name} construit !`, 'success');
+        }
+
+        // Utility Functions
+        function canAffordCost(cost) {
+            return gameState.resources.gold >= cost.gold &&
+                   gameState.resources.wood >= cost.wood &&
+                   gameState.resources.stone >= cost.stone;
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed; top: 20px; right: 20px; z-index: 3000;
+                background: ${type === 'success' ? 'var(--success-green)' : type === 'error' ? 'var(--roman-red)' : 'var(--gold-primary)'};
+                color: white; padding: 1rem 1.5rem; border-radius: 0.5rem;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.3); font-weight: bold;
+                animation: slideInRight 0.5s ease, fadeOut 0.5s ease 2.5s forwards;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        // Tutorial System
+        function startTutorial() {
+            gameState.tutorial.active = true;
+            gameState.tutorial.step = 0;
+            showTutorialStep();
+            document.getElementById('tutorialFab').style.display = 'none';
+        }
+
+        function showTutorialStep() {
+            const step = tutorialSteps[gameState.tutorial.step];
+            if (!step) return;
+
+            document.getElementById('tutorialOverlay').style.display = 'block';
+            document.getElementById('tutorialPopup').style.display = 'block';
+            document.getElementById('tutorialTitle').textContent = step.title;
+            document.getElementById('tutorialContent').innerHTML = `
+                <p>${step.content}</p>
+                ${step.tip ? `<div style="margin-top: 1rem; padding: 1rem; background: rgba(217, 119, 6, 0.1); 
+                              border-radius: 0.5rem; font-style: italic;">${step.tip}</div>` : ''}
+            `;
+
+            renderBuildingsGrid(); // Refresh to show highlights
+        }
+
+        function nextTutorialStep() {
+            gameState.tutorial.step++;
+            if (gameState.tutorial.step >= tutorialSteps.length) {
+                completeTutorial();
+            } else {
+                showTutorialStep();
+            }
+        }
+
+        function completeTutorial() {
+            gameState.tutorial.active = false;
+            gameState.tutorial.completed = true;
+            localStorage.setItem('imperiumTutorialCompleted', 'true');
+            
+            document.getElementById('tutorialOverlay').style.display = 'none';
+            document.getElementById('tutorialPopup').style.display = 'none';
+            document.getElementById('tutorialFab').style.display = 'block';
+            document.getElementById('tutorialFab').innerHTML = '🔄';
+            document.getElementById('tutorialFab').title = 'Rejouer le tutoriel';
+
+            renderBuildingsGrid(); // Remove highlights
+            showNotification('Tutoriel terminé ! Vous êtes maintenant prêt à bâtir votre empire !', 'success');
+        }
+
+        function skipTutorial() {
+            completeTutorial();
+        }
+
+        function handleTutorialProgress(building) {
+            const step = tutorialSteps[gameState.tutorial.step];
+            if (step.target === building.type) {
+                nextTutorialStep();
+            }
+        }
+
+        // Event Listeners
+        document.getElementById('tutorialNext').onclick = nextTutorialStep;
+        document.getElementById('tutorialSkip').onclick = skipTutorial;
+
+        // Quick Actions
         function collectTaxes() {
-            alert("Impôts collectés ! +500 Or.");
-            // Ici on pourrait ajouter la logique pour mettre à jour les ressources
+            const amount = Math.floor(gameState.resources.population * 2);
+            gameState.resources.gold += amount;
+            showNotification(`Impôts collectés ! +${amount} Or`, 'success');
         }
 
         function organizeGames() {
-            alert("Festival organisé ! Le bonheur de la population augmente de 5%.");
-            const happinessEl = document.getElementById('statHappiness');
-            let currentHappiness = parseInt(happinessEl.textContent);
-            happinessEl.textContent = Math.min(100, currentHappiness + 5) + '%';
+            if (gameState.resources.gold >= 500) {
+                gameState.resources.gold -= 500;
+                gameState.resources.happiness = Math.min(100, gameState.resources.happiness + 10);
+                showNotification('Festival organisé ! Bonheur +10%', 'success');
+            } else {
+                showNotification('Pas assez d\'or pour organiser un festival !', 'error');
+            }
         }
 
         function recruitSoldiers() {
-            alert("Menu de recrutement ouvert ! Choisissez vos unités à recruter.");
-            // Ici on pourrait ouvrir un modal de recrutement
+            showNotification('Fonctionnalité à venir : Recrutement de soldats', 'info');
         }
 
         function viewProduction() {
-            alert("Détails de production :\n• Or: +245/h\n• Nourriture: +180/h\n• Marbre: +95/h\n• Fer: +65/h");
-            // Ici on pourrait ouvrir un panneau détaillé de production
+            const productions = [
+                `💰 Or: +${calculateProduction('gold').toFixed(1)}/h`,
+                `🌲 Bois: +${calculateProduction('wood').toFixed(1)}/h`,
+                `🪨 Pierre: +${calculateProduction('stone').toFixed(1)}/h`
+            ];
+            showNotification(productions.join(' | '), 'info');
         }
 
-        function manageCitizens() {
-            alert("Gestion des citoyens :\n• Population: 1,250\n• Bonheur: 85%\n• Croissance: +12/h");
-            // Ici on pourrait ouvrir un panneau de gestion des citoyens
+        // Create animated particles
+        function createParticles() {
+            const container = document.querySelector('.particles');
+            if (!container) return;
+
+            const particleCount = window.innerWidth <= 768 ? 15 : 30;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 8}s`;
+                particle.style.animationDuration = `${5 + Math.random() * 5}s`;
+                particle.style.transform = `scale(${0.5 + Math.random() * 0.5})`;
+                container.appendChild(particle);
+            }
         }
 
-        function manageBuildings() {
-            alert("Gestion des bâtiments :\n• Bâtiments construits: 12\n• Emplacements libres: 3\n• En construction: 0");
-            // Ici on pourrait ouvrir un panneau de gestion des bâtiments
-        }
-
-        // ===============================================================
-        // INITIALISATION DE LA PAGE
-        // ===============================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeGlobalUI();
-            initializeCityView();
-            
-            // Initialiser les systèmes mobiles
-            initializeMobileSupport();
-        });
-        
-        // Initialisation du support mobile
-        function initializeMobileSupport() {
-            // Créer les instances des gestionnaires mobiles
-            if (typeof MobileTouchHandler !== 'undefined') {
-                window.mobileTouchHandler = new MobileTouchHandler();
-                console.log('🔥 Gestionnaire tactile mobile initialisé');
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
             }
-            
-            if (typeof MobileNavigation !== 'undefined') {
-                window.mobileNav = new MobileNavigation();
-                console.log('🔥 Navigation mobile initialisée');
-            }
-            
-            // Adapter les interactions existantes pour mobile
-            adaptExistingInteractionsForMobile();
-        }
-        
-        // Adapter les interactions existantes pour mobile
-        function adaptExistingInteractionsForMobile() {
-            // Remplacer les onclick par des événements tactiles
-            const buildingSlots = document.querySelectorAll('.building-slot');
-            buildingSlots.forEach(slot => {
-                // Ajouter les classes pour la gestion tactile
-                slot.classList.add('touch-interactive');
-                
-                // Écouter les événements tactiles personnalisés
-                slot.addEventListener('mobileTap', (event) => {
-                    // Récupérer les données du bâtiment depuis l'élément
-                    const buildingName = slot.querySelector('.building-name')?.textContent;
-                    const buildingData = BUILDINGS_DATA.find(b => b.name === buildingName);
-                    if (buildingData) {
-                        handleBuildingClick(buildingData);
-                    }
-                });
-                
-                slot.addEventListener('mobileLongPress', (event) => {
-                    // Menu contextuel pour appui long
-                    const buildingName = slot.querySelector('.building-name')?.textContent;
-                    const buildingData = BUILDINGS_DATA.find(b => b.name === buildingName);
-                    if (buildingData && buildingData.occupied) {
-                        showBuildingContextMenu(buildingData, slot);
-                    }
-                });
-            });
-            
-            // Adapter les boutons d'action
-            const actionButtons = document.querySelectorAll('.action-btn');
-            actionButtons.forEach(btn => {
-                btn.classList.add('touch-interactive');
-            });
-        }
-        
-        // Menu contextuel pour les bâtiments
-        function showBuildingContextMenu(building, element) {
-            const contextMenu = document.createElement('div');
-            contextMenu.className = 'mobile-context-menu';
-            contextMenu.innerHTML = `
-                <div class="context-menu-item" onclick="upgradeBuildingMobile('${building.name}')">
-                    <span class="context-icon">⬆️</span>
-                    <span>Améliorer</span>
-                </div>
-                <div class="context-menu-item" onclick="manageBuildingMobile('${building.name}')">
-                    <span class="context-icon">⚙️</span>
-                    <span>Gérer</span>
-                </div>
-                <div class="context-menu-item" onclick="closeMobileContextMenu()">
-                    <span class="context-icon">❌</span>
-                    <span>Fermer</span>
-                </div>
-            `;
-            
-            // Positionner le menu
-            const rect = element.getBoundingClientRect();
-            contextMenu.style.position = 'fixed';
-            contextMenu.style.top = rect.top + 'px';
-            contextMenu.style.left = rect.right + 10 + 'px';
-            contextMenu.style.zIndex = '9999';
-            
-            document.body.appendChild(contextMenu);
-            
-            // Fermer automatiquement après 5 secondes
-            setTimeout(() => {
-                if (contextMenu.parentNode) {
-                    contextMenu.remove();
-                }
-            }, 5000);
-        }
-        
-        function upgradeBuildingMobile(buildingName) {
-            alert(`Amélioration de ${buildingName} en cours...`);
-            closeMobileContextMenu();
-        }
-        
-        function manageBuildingMobile(buildingName) {
-            alert(`Gestion de ${buildingName}...`);
-            closeMobileContextMenu();
-        }
-        
-        function closeMobileContextMenu() {
-            const contextMenu = document.querySelector('.mobile-context-menu');
-            if (contextMenu) {
-                contextMenu.remove();
-            }
-        }
-    </script>
-</body>
-</html>
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; transform: translate

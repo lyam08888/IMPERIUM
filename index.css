@@ -1,0 +1,181 @@
+/* Import Google Fonts for Roman-style typography */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Roman Empire Color Palette */
+  --gold-primary: #d97706;
+  --gold-secondary: #f59e0b;
+  --gold-light: #fbbf24;
+  --marble-white: #f8fafc;
+  --roman-red: #dc2626;
+  --roman-purple: #7c3aed;
+  --dark-stone: #1e293b;
+  --dark-marble: #334155;
+  --dark-bg: #0f172a;
+  --text-light: #e2e8f0;
+  --text-muted: #94a3b8;
+  --border-gold: rgba(217, 119, 6, 0.3);
+  --shadow-gold: rgba(217, 119, 6, 0.4);
+  --success-green: #22c55e;
+  --storage-full-red: #ef4444;
+
+  /* Typography */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  margin: auto;
+  min-height: 100vh;
+}
+
+body {
+  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(217, 119, 6, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+    linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-stone) 100%);
+  color: var(--text-light);
+  overflow-x: hidden;
+  user-select: none;
+}
+
+/* Custom scrollbar for Roman theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--dark-stone);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--gold-secondary), var(--gold-light));
+}
+
+/* Tutorial specific styles */
+.tutorial-highlight {
+  position: relative;
+  z-index: 1001 !important;
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.8) !important;
+  border: 3px solid var(--gold-light) !important;
+  animation: tutorialPulse 2s infinite;
+}
+
+@keyframes tutorialPulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
+    transform: scale(1.02);
+  }
+}
+
+/* Building animation effects */
+@keyframes buildingComplete {
+  0% { 
+    transform: scale(0.8); 
+    opacity: 0.5; 
+  }
+  50% { 
+    transform: scale(1.1); 
+  }
+  100% { 
+    transform: scale(1); 
+    opacity: 1; 
+  }
+}
+
+@keyframes resourceGain {
+  0%, 100% { 
+    transform: scale(1); 
+  }
+  50% { 
+    transform: scale(1.1); 
+    color: var(--success-green); 
+  }
+}
+
+@keyframes shimmer {
+  0% { 
+    transform: translateX(-100%); 
+  }
+  100% { 
+    transform: translateX(100%); 
+  }
+}
+
+/* Floating particles animation */
+@keyframes float {
+  0% { 
+    transform: translateY(100vh) rotate(0deg); 
+    opacity: 0; 
+  }
+  10% { 
+    opacity: 0.6; 
+  }
+  90% { 
+    opacity: 0.6; 
+  }
+  100% { 
+    transform: translateY(-100px) rotate(360deg); 
+    opacity: 0; 
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+  
+  .tutorial-highlight {
+    animation: none; /* Reduce animations on mobile for performance */
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --border-gold: #fbbf24;
+    --text-muted: #cbd5e1;
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .tutorial-highlight,
+  [class*="tutorial"] {
+    display: none !important;
+  }
+}
