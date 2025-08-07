@@ -408,7 +408,7 @@
         .city-stats {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .stat-item {
@@ -476,8 +476,8 @@
 
         .quick-actions {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.8rem;
         }
 
         .quick-action-btn {
@@ -639,7 +639,7 @@
                         <!-- Panneau de contrôle -->
                         <div class="city-control-panel">
                             <div class="panel-section">
-                                <h3 class="section-title">Statistiques</h3>
+                                <h3 class="section-title">Statistiques de la Cité</h3>
                                 <div class="city-stats">
                                     <div class="stat-item">
                                         <div class="stat-value"><span class="stat-icon">👥</span><span id="statPopulation">1,250</span></div>
@@ -648,6 +648,14 @@
                                     <div class="stat-item">
                                         <div class="stat-value"><span class="stat-icon">😊</span><span id="statHappiness">85%</span></div>
                                         <div class="stat-label">Bonheur</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value"><span class="stat-icon">🏗️</span><span id="statBuildings">12</span></div>
+                                        <div class="stat-label">Bâtiments</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value"><span class="stat-icon">⚔️</span><span id="statArmy">450</span></div>
+                                        <div class="stat-label">Soldats</div>
                                     </div>
                                 </div>
                             </div>
@@ -674,7 +682,11 @@
                                 <h3 class="section-title">Actions Rapides</h3>
                                 <div class="quick-actions">
                                     <button class="quick-action-btn" onclick="collectTaxes()">💰 Collecter Impôts</button>
-                                    <button class="quick-action-btn" onclick="organizeGames()">🎪 Organiser Jeux</button>
+                                    <button class="quick-action-btn" onclick="organizeGames()">🎪 Organiser Festival</button>
+                                    <button class="quick-action-btn" onclick="recruitSoldiers()">⚔️ Recruter Soldats</button>
+                                    <button class="quick-action-btn" onclick="viewProduction()">⚡ Production</button>
+                                    <button class="quick-action-btn" onclick="manageCitizens()">👥 Gérer Citoyens</button>
+                                    <button class="quick-action-btn" onclick="manageBuildings()">🏗️ Gérer Bâtiments</button>
                                 </div>
                             </div>
                         </div>
@@ -763,13 +775,34 @@
 
         function collectTaxes() {
             alert("Impôts collectés ! +500 Or.");
+            // Ici on pourrait ajouter la logique pour mettre à jour les ressources
         }
 
         function organizeGames() {
-            alert("Jeux organisés ! Le bonheur de la population augmente de 5%.");
+            alert("Festival organisé ! Le bonheur de la population augmente de 5%.");
             const happinessEl = document.getElementById('statHappiness');
             let currentHappiness = parseInt(happinessEl.textContent);
             happinessEl.textContent = Math.min(100, currentHappiness + 5) + '%';
+        }
+
+        function recruitSoldiers() {
+            alert("Menu de recrutement ouvert ! Choisissez vos unités à recruter.");
+            // Ici on pourrait ouvrir un modal de recrutement
+        }
+
+        function viewProduction() {
+            alert("Détails de production :\n• Or: +245/h\n• Nourriture: +180/h\n• Marbre: +95/h\n• Fer: +65/h");
+            // Ici on pourrait ouvrir un panneau détaillé de production
+        }
+
+        function manageCitizens() {
+            alert("Gestion des citoyens :\n• Population: 1,250\n• Bonheur: 85%\n• Croissance: +12/h");
+            // Ici on pourrait ouvrir un panneau de gestion des citoyens
+        }
+
+        function manageBuildings() {
+            alert("Gestion des bâtiments :\n• Bâtiments construits: 12\n• Emplacements libres: 3\n• En construction: 0");
+            // Ici on pourrait ouvrir un panneau de gestion des bâtiments
         }
 
         // ===============================================================

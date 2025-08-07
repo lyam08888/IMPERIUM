@@ -324,8 +324,8 @@ class ImperiumButtonVerification {
             if (window.interactiveTutorial && !window.interactiveTutorial.isCompleted()) {
                 window.interactiveTutorial.start();
             }
-            // Naviguer vers Ma Cité
-            window.location.href = 'Navigation/Empire/Ma Cité/Ma Cité Romaine.html';
+            // Naviguer vers Cite.html qui garde l'homogénéité du site
+            window.location.href = 'Navigation/Empire/Cite.html';
         }
     }
 
