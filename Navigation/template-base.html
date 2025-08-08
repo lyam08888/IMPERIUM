@@ -10,8 +10,11 @@
 
     <!-- Styles et scripts communs -->
     <link rel="stylesheet" href="../common-styles.css">
-    <script src="../common-navigation.js"></script>
     <script src="../game-engine.js"></script>
+
+    <!-- Nouveau système de navigation popup 2025 -->
+    <link rel="stylesheet" href="../navigation-popup-2025.css">
+    <script src="../navigation-popup-2025.js"></script>
     <script src="../advanced-game-systems.js"></script>
     <script src="../save-system.js"></script>
     <script src="../ui-manager.js"></script>
@@ -166,44 +169,6 @@
         <header class="imperium-header">
             <div class="header-content">
                 <div class="imperium-logo" onclick="navigateTo('index')">IMPERIUM</div>
-                <nav class="main-navigation">
-                    <div class="nav-sections">
-                        <div class="nav-section">
-                            <span class="nav-section-title">Empire</span>
-                            <div class="nav-items">
-                                <a href="#" onclick="navigateTo('cite')" class="nav-item">
-                                    <span class="nav-icon">🏛️</span>
-                                    <span class="nav-text">Ma Cité</span>
-                                </a>
-                                <a href="#" onclick="navigateTo('monde')" class="nav-item">
-                                    <span class="nav-icon">🌍</span>
-                                    <span class="nav-text">Monde</span>
-                                </a>
-                                <a href="#" onclick="navigateTo('province')" class="nav-item">
-                                    <span class="nav-icon">🏝️</span>
-                                    <span class="nav-text">Province</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="nav-section">
-                            <span class="nav-section-title">Social</span>
-                            <div class="nav-items">
-                                <a href="#" onclick="navigateTo('diplomatie')" class="nav-item">
-                                    <span class="nav-icon">🤝</span>
-                                    <span class="nav-text">Diplomatie</span>
-                                </a>
-                                <a href="#" onclick="navigateTo('alliance')" class="nav-item">
-                                    <span class="nav-icon">⚔️</span>
-                                    <span class="nav-text">Alliance</span>
-                                </a>
-                                <a href="#" onclick="navigateTo('messages')" class="nav-item">
-                                    <span class="nav-icon">📜</span>
-                                    <span class="nav-text">Messages</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
                 <div class="user-info">
                     <div class="resource-display">
                         <span class="resource-item">
